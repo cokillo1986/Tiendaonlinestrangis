@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vestuario STRANGIS | Ropa Streetwear Valencia - Hoodies y Drops</title>
-<meta name="description" content="Vestuario STRANGIS - Tienda de vestuario streetwear en Valencia. Hoodies oversize, camisetas y drops exclusivos. Envío en 30 días aprox. Compra con Bizum.">
-<meta name="keywords" content="vestuario strangis, strangis, vestuario streetwear valencia">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://cokillo1986.github.io/Tie/">
+<title>Vestuario STRANGIS | Ropa Streetwear Valencia</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif}
@@ -31,7 +27,7 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 </style>
 </head>
 <body>
-<div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE<small>Muchas prendas son internacionales y vienen de fuera. Te avisamos cuando salga tu pedido.</small></div>
+<div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE<small>Muchas prendas son internacionales y vienen de fuera.</small></div>
 <header><div class="logo">STRAN<span>GIS</span></div><div style="font-size:12px;text-align:right">VALENCIA<br>STREETWEAR</div></header>
 <p style="text-align:center;color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
 <p style="text-align:center;color:#999;font-size:13px;margin:4px 16px 0">Hoodies oversize, camisetas y drops exclusivos. Prendas internacionales con envío en 30 días aprox.</p>
@@ -41,9 +37,10 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 <button id="btnAdmin">⚙️ Admin</button>
 </div>
 <div id="tienda">
-<div class="info">ℹ️ <b style="color:#fff">¿Cuánto tarda?</b><br>La mayoría de nuestras prendas son internacionales. El envío tarda <b style="color:#C8FF2E">unos 30 días aproximadamente</b> desde que haces el pedido.</div>
+<div class="info">ℹ️ <b style="color:#fff">¿Cuánto tarda?</b><br>La mayoría de nuestras prendas son internacionales. El envío tarda <b style="color:#C8FF2E">unos 30 días aproximadamente</b>.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999">Aún no hay productos. Sube el primero desde Admin.</p>
+<p id="debug" style="text-align:center;color:#666;font-size:11px"></p>
 </div>
 <div id="admin" style="display:none">
 <div class="card">
@@ -82,53 +79,23 @@ function show(v){
 document.getElementById('btnTienda').addEventListener('click', function(){ show('tienda'); });
 document.getElementById('btnAdmin').addEventListener('click', function(){
   const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
-  if(pass === ADMIN_PASS){
-    show('admin');
-  } else if(pass !== null){
-    alert('❌ Contraseña incorrecta. Solo el dueño de STRANGIS puede entrar.');
-  }
+  if(pass === ADMIN_PASS){ show('admin'); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
 });
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 let supabaseClient = null;
 try{ supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); }catch(e){ console.log(e); }
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
+
 async function cargar(){
   if(!supabaseClient) return;
+  const debug = document.getElementById('debug');
   try{
-    const {data: prods} = await supabaseClient.from('products').select('*, product_images(image_url)').order('created_at',{ascending:false});
+    const {data: prods, error: e1} = await supabaseClient.from('products').select('*').order('created_at',{ascending:false});
+    if(e1){ debug.innerText = 'Error productos: '+e1.message; return; }
+    const {data: imgs, error: e2} = await supabaseClient.from('product_images').select('*');
+    if(e2){ debug.innerText = 'Error fotos: '+e2.message; }
     const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(!prods||prods.length===0) return;
+    if(!prods || prods.length===0){ document.getElementById('vacio').style.display='block'; debug.innerText='0 productos en Supabase'; return; }
     document.getElementById('vacio').style.display='none';
-    prods.forEach(p=>{
-      const img = p.product_images && p.product_images[0] ? p.product_images[0].image_url : 'https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS';
-      const dias = p.shipping_days || 30;
-      lista.innerHTML += `<div class="card"><img src="${img}"><h3 style="margin:10px 0 4px">${p.name}</h3><span class="badge">NUEVO</span><p class="price">${p.price} €</p><div class="envio">🌍 <b>Envío: ${dias} días aprox.</b><br>Llega alrededor del ${fechaEstimada(dias)}</div><button onclick="alert('Pedido: ${p.name} - Envío ${dias} días aprox. Haz Bizum')">🛒 COMPRAR CON BIZUM</button></div>`;
-    });
-  }catch(e){ console.log(e); }
-}
-cargar();
-document.getElementById('btnGuardar').addEventListener('click', subir);
-async function subir(){
-  const nombre=document.getElementById('nombre').value; const precio=document.getElementById('precio').value;
-  const talla=document.getElementById('talla').value; const color=document.getElementById('color').value;
-  const stock=document.getElementById('stock').value; const dias=document.getElementById('dias').value;
-  const file=document.getElementById('foto').files[0]; const estado=document.getElementById('estado');
-  if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
-  if(!file){ alert('Elige una captura'); return; }
-  estado.innerText='⏳ Subiendo a Supabase...';
-  const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-  const {data:prod,error} = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)}).select().single();
-  if(error){ estado.innerText='Error: '+error.message; return; }
-  const fileName=prod.id+'/'+Date.now()+'_'+file.name.replace(/\s/g,'_');
-  const {error:upErr}=await supabaseClient.storage.from('product-images').upload(fileName,file);
-  if(upErr){ estado.innerText='Error foto: '+upErr.message; return; }
-  const {data:pub}=supabaseClient.storage.from('product-images').getPublicUrl(fileName);
-  await supabaseClient.from('product_images').insert({product_id:prod.id,image_url:pub.publicUrl,position:0,source_type:'upload'});
-  await supabaseClient.from('product_variants').insert({product_id:prod.id,size:talla,color:color,stock:parseInt(stock),sku:'STR-'+prod.id.slice(0,8).toUpperCase()});
-  estado.innerText='✅ ¡LISTO! Ya está en la tienda con envío de '+dias+' días';
-  cargar(); show('tienda');
-}
-</script>
-</body>
-</html>
+    debug.inner
