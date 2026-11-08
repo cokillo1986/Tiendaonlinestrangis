@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vestuario STRANGIS | Ropa Streetwear Valencia - Hoodies y Drops</title>
+<meta name="description" content="Vestuario STRANGIS - Tienda de vestuario streetwear en Valencia. Hoodies oversize, camisetas y drops exclusivos. Envío en 30 días aprox. Compra con Bizum. Envíos a toda España.">
+<meta name="keywords" content="vestuario strangis, strangis, vestuario streetwear valencia, ropa strangis, tienda strangis valencia">
+<meta name="author" content="STRANGIS">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://strangis.vercel.app/">
+<meta property="og:title" content="Vestuario STRANGIS | Streetwear Valencia">
+<meta property="og:description" content="Vestuario streetwear en Valencia. Hoodies oversize y drops exclusivos. Envío 30 días aprox.">
+<meta property="og:type" content="website">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ClothingStore","name":"Vestuario STRANGIS","alternateName":"STRANGIS","description":"Vestuario streetwear en Valencia - Hoodies, camisetas y drops exclusivos","address":{"@type":"PostalAddress","addressLocality":"Valencia","addressCountry":"ES"},"priceRange":"€€"}
+</script>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif}
+.banner{background:#C8FF2E;color:#000;text-align:center;padding:10px 12px;font-weight:900;font-size:13px;line-height:1.3}
+.banner small{display:block;font-weight:700;font-size:11px;margin-top:2px}
+header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E}
+.logo{font-weight:900;font-size:28px;letter-spacing:2px}.logo span{color:#C8FF2E}
+button{background:#C8FF2E;color:#000;border:0;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
+.wrap{max-width:900px;margin:auto;padding:16px}
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px}
+.card img{width:100%;border-radius:12px;aspect-ratio:1/1;object-fit:cover;background:#222}
+.price{color:#C8FF2E;font-weight:900;font-size:20px;margin:6px 0}
+.badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
+.envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;line-height:1.4;margin:8px 0}
+.envio b{color:#C8FF2E}
+.tabs{display:flex;gap:10px;margin-bottom:16px}
+.tabs button{background:#222;color:#fff}.tabs button.active{background:#C8FF2E;color:#000}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+small{color:#999}
+.info{background:#151515;border:1px solid #333;border-radius:14px;padding:14px;font-size:13px;line-height:1.6;color:#ccc}
+</style>
+</head>
+<body>
+
+<div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE
+<small>Muchas prendas son internacionales y vienen de fuera. Te avisamos cuando salga tu pedido.</small>
+</div>
+
+<header><div class="logo">STRAN<span>GIS</span></div><div style="font-size:12px;text-align:right">VALENCIA<br>STREETWEAR</div></header>
+<p style="text-align:center;color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
+<p style="text-align:center;color:#999;font-size:13px;margin:4px 16px 0">Hoodies oversize, camisetas y drops exclusivos. Prendas internacionales con envío en 30 días aprox.</p>
+
+<div class="wrap">
+<div class="tabs">
+<button id="btnTienda" class="active" onclick="show('tienda')">🛍️ Tienda</button>
+<button id="btnAdmin" onclick="show('admin')">⚙️ Admin</button>
+</div>
+
+<div id="tienda">
+<div class="info">ℹ️ <b style="color:#fff">¿Cuánto tarda?</b><br>La mayoría de nuestras prendas son internacionales. El envío tarda <b style="color:#C8FF2E">unos 30 días aproximadamente</b> desde que haces el pedido. En cada producto te ponemos la fecha estimada de llegada. Si es una prenda nacional, te lo indicaremos y llegará antes.</div>
+<div id="lista" class="grid" style="margin-top:14px"></div>
+<p id="vacio" style="text-align:center;color:#999">Aún no hay productos. Sube el primero desde Admin.</p>
+</div>
+
+<div id="admin" style="display:none">
+<div class="card">
+<h2 style="margin:0">+ Nuevo Producto</h2>
+<small>Sube tu captura y elige cuántos días tarda esa prenda.</small>
+<input id="nombre" placeholder="Nombre: Ej: Hoodie Oversize Negro STRANGIS">
+<input id="precio" type="number" placeholder="Precio: Ej: 39.99">
+<div style="display:flex;gap:8px">
+<select id="talla"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+<select id="color"><option>Negro</option><option>Verde Lima</option><option>Blanco</option><option>Gris</option></select>
+</div>
+<input id="stock" type="number" placeholder="Stock: Ej: 10" value="10">
+<label style="display:block;margin-top:12px;font-weight:800">🚚 ¿Cuánto tarda esta prenda?</label>
+<select id="dias">
+<option value="30">🌍 Internacional - 30 días aprox.</option>
+<option value="15">✈️ Internacional rápido - 15 días aprox.</option>
+<option value="7">🇪🇸 Nacional - 7 días aprox.</option>
+<option value="3">⚡ En stock Valencia - 2-3 días</option>
+</select>
+<label style="display:block;margin-top:12px;font-weight:800">📸 Foto - Captura desde tu móvil</label>
+<input id="foto" type="file" accept="image/*">
+<button onclick="subir()">💾 GUARDAR PRODUCTO</button>
+<p id="estado"></p>
+</div>
+</div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function show(v){
+  document.getElementById('tienda').style.display = v==='tienda'?'block':'none';
+  document.getElementById('admin').style.display = v==='admin'?'block':'none';
+  document.getElementById('btnTienda').className = v==='tienda'?'active':'';
+  document.getElementById('btnAdmin').className = v==='admin'?'active':'';
+}
+function fechaEstimada(dias){
+  const f = new Date(); f.setDate(f.getDate() + parseInt(dias));
+  return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'});
+}
+function textoEnvio(dias){
+  dias = parseInt(dias||30);
+  if(dias<=3) return {icono:'⚡', txt:`En stock en Valencia - Llega en ${dias} días aprox. - alrededor del ${fechaEstimada(dias)}`};
+  if(dias<=7) return {icono:'🇪🇸', txt:`Prenda nacional - Llega en ${dias} días aprox. - alrededor del ${fechaEstimada(dias)}`};
+  if(dias<=15) return {icono:'✈️', txt:`Prenda internacional - Llega en ${dias} días aprox. - alrededor del ${fechaEstimada(dias)}`};
+  return {icono:'🌍', txt:`Prenda internacional - Llega en ${dias} días aprox. - alrededor del ${fechaEstimada(dias)}`};
+}
+
+async function cargar(){
+  const {data: prods} = await supabase.from('products').select('*, product_images(image_url)').order('created_at',{ascending:false});
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '';
+  if(!prods || prods.length===0) return;
+  document.getElementById('vacio').style.display='none';
+  prods.forEach(p=>{
+    const img = p.product_images && p.product_images[0] ? p.product_images[0].image_url : 'https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS';
+    const dias = p.shipping_days || 30;
+    const env = textoEnvio(dias);
+    lista.innerHTML += `<div class="card"><img src="${img}"><h3 style="margin:10px 0 4px">${p.name}</h3><span class="badge">NUEVO</span><p class="price">${p.price} €</p><div class="envio">${env.icono} <b>Envío: ${dias} días aprox.</b><br>${env.txt}<br><small style="color:#aaa">Si es internacional puede variar unos días por aduana.</small></div><button onclick="alert('Pedido: ${p.name} - Envío ${dias} días aprox. Haz Bizum con concepto STR-0001')">🛒 COMPRAR CON BIZUM</button></div>`;
+  });
+}
+cargar();
+
+async function subir(){
+  const nombre = document.getElementById('nombre').value;
+  const precio = document.getElementById('precio').value;
+  const talla = document.getElementById('talla').value;
+  const color = document.getElementById('color').value;
+  const stock = document.getElementById('stock').value;
+  const dias = document.getElementById('dias').value;
+  const file = document.getElementById('foto').files[0];
+  const estado = document.getElementById('estado');
+  if(!nombre || !precio){ alert('Pon nombre y precio'); return; }
+  if(!file){ alert('Elige una captura de tu móvil'); return; }
+  estado.innerText = '⏳ Subiendo a Supabase...';
+  const slug = nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-') + '-' + Date.now();
+  const {data: prod, error} = await supabase.from('products').insert({name:nombre, slug:slug, price:precio, is_active:true, shipping_days: parseInt(dias)}).select().single();
+  if(error){ 
+    // Si tu tabla aún no tiene shipping_days, lo guarda sin ese campo
+    const {data: prod2, error: err2} = await supabase.from('products').insert({name:nombre, slug:slug, price:precio, is_active:true}).select().single();
+    if(err2){ estado.innerText = 'Error: '+err2.message; return; }
+    await guardarFoto(prod2, file, talla, color, stock, dias, estado); return;
+  }
+  await guardarFoto(prod, file, talla, color, stock, dias, estado);
+}
+async function guardarFoto(prod, file, talla, color, stock, dias, estado){
+  const fileName = prod.id + '/' + Date.now() + '_' + file.name.replace(/\s/g,'_');
+  const {error: upErr} = await supabase.storage.from('product-images').upload(fileName, file);
+  if(upErr){ estado.innerText = 'Error foto: '+upErr.message; return; }
+  const {data: pub} = supabase.storage.from('product-images').getPublicUrl(fileName);
+  await supabase.from('product_images').insert({product_id: prod.id, image_url: pub.publicUrl, position:0, source_type:'upload'});
+  await supabase.from('product_variants').insert({product_id: prod.id, size:talla, color:color, stock: parseInt(stock), sku:'STR-'+prod.id.slice(0,8).toUpperCase()});
+  estado.innerText = '✅ ¡LISTO! Ya está en la tienda con envío de '+dias+' días';
+  document.getElementById('nombre').value=''; document.getElementById('precio').value='';
+  cargar(); show('tienda');
+}
+</script>
+</body>
+</html>
