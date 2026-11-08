@@ -2,84 +2,166 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vestuario STRANGIS | Ropa Streetwear Valencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<!-- ===== SEO BÁSICO ===== -->
+<title>STRANGIS | Ropa Streetwear Valencia - Tienda Online | Envíos Gratis</title>
+<meta name="description" content="STRANGIS - Tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana. Envíos gratuitos a toda España. Compra fácil con Bizum.">
+<meta name="keywords" content="STRANGIS, ropa streetwear Valencia, tienda ropa urbana Valencia, camiseta oversize, sudadera streetwear, ropa urbana España, tienda online streetwear, vestuario STRANGIS">
+<meta name="author" content="STRANGIS Valencia">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="language" content="Spanish">
+<meta name="geo.region" content="ES-VC">
+<meta name="geo.placename" content="Valencia, España">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- Canonical - CAMBIA esto por tu dominio real cuando lo tengas -->
+<link rel="canonical" href="https://www.strangis.es/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23C8FF2E'/><text x='50' y='68' font-size='55' font-family='Arial' font-weight='900' text-anchor='middle' fill='%23000'>S</text></svg>">
+
+<!-- ===== OPEN GRAPH - Para WhatsApp / Instagram / Facebook ===== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="STRANGIS">
+<meta property="og:title" content="STRANGIS | Ropa Streetwear Valencia - Tienda Online">
+<meta property="og:description" content="Ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana. Envíos gratuitos a toda España. Compra con Bizum.">
+<meta property="og:url" content="https://www.strangis.es/">
+<meta property="og:image" content="https://www.strangis.es/og-strangis.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_ES">
+
+<!-- ===== TWITTER / X ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="STRANGIS | Ropa Streetwear Valencia">
+<meta name="twitter:description" content="Tienda online de ropa streetwear en Valencia. Envíos gratis a toda España.">
+<meta name="twitter:image" content="https://www.strangis.es/og-strangis.jpg">
+
+<!-- ===== DATOS ESTRUCTURADOS PARA GOOGLE - Store + WebSite ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ClothingStore",
+  "name": "STRANGIS",
+  "description": "Tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana con envíos gratuitos a toda España.",
+  "url": "https://www.strangis.es/",
+  "telephone": "+34-674-55-96-14",
+  "priceRange": "€€",
+  "currenciesAccepted": "EUR",
+  "paymentAccepted": "Bizum",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Valencia",
+    "addressRegion": "Comunidad Valenciana",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "39.4699",
+    "longitude": "-0.3763"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "sameAs": ["https://www.instagram.com/strangis.valencia"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "STRANGIS",
+  "url": "https://www.strangis.es/",
+  "inLanguage": "es-ES",
+  "description": "Tienda online de ropa streetwear en Valencia"
+}
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
-.banner{background:#C8FF2E;color:#000;text-align:center;padding:10px 12px;font-weight:900;font-size:13px;position:relative;z-index:2}
-.banner small{display:block;font-weight:700;font-size:11px}
-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E;position:relative;z-index:2}
-.logo{font-weight:900;font-size:28px;letter-spacing:2px}.logo span{color:#C8FF2E}
-button{background:#C8FF2E;color:#000;border:0;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
-input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{max-width:100%;overflow-x:hidden}
+body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+img{max-width:100%;display:block}
+.banner{background:#C8FF2E;color:#000;text-align:center;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));font-weight:900;font-size:13px;line-height:1.3;position:relative;z-index:2}
+.banner small{display:block;font-weight:700;font-size:11px;line-height:1.4;margin-bottom:4px}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E;position:relative;z-index:2;gap:10px}
+.logo{font-weight:900;font-size:26px;letter-spacing:1px;white-space:nowrap}.logo span{color:#C8FF2E}
+button{background:#C8FF2E;color:#000;border:0;padding:14px 16px;border-radius:12px;font-weight:800;cursor:pointer;width:100%;margin-top:10px;font-size:16px;min-height:48px;touch-action:manipulation}
+button:active{transform:scale(.98)}
+input,select,textarea{width:100%;padding:13px 12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px;font-size:16px}
 label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px}
-.wrap{max-width:900px;margin:auto;padding:16px;position:relative;z-index:2}
-.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px;position:relative}
-.price{color:#C8FF2E;font-weight:900;font-size:20px;margin:6px 0}
+.wrap{max-width:900px;margin:auto;padding:12px 12px 24px;position:relative;z-index:2}
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:12px;margin-bottom:14px;position:relative;overflow:hidden}
+.price{color:#C8FF2E;font-weight:900;font-size:22px;margin:6px 0}
 .badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
-.ref{font-size:11px;color:#888}
-.envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0}
-.bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:16px;margin:10px 0}
+.envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0;line-height:1.4}
+.bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:15px;margin:10px 0;line-height:1.3}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-.info{background:#151515;border:1px solid #333;border-radius:14px;padding:14px;font-size:13px;line-height:1.6;color:#ccc}
-.carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none}
+.info{background:#151515;border:1px solid #333;border-radius:14px;padding:13px;font-size:13px;line-height:1.6;color:#ccc}
+.carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .carrusel::-webkit-scrollbar{display:none}
-.carrusel img{width:100%;flex-shrink:0;scroll-snap-align:center;aspect-ratio:1/1;object-fit:cover;background:#222}
-.contador{position:absolute;top:24px;right:24px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;font-weight:800;padding:4px 8px;border-radius:20px;z-index:2}
-.hint{font-size:11px;color:#888;text-align:center;margin-top:4px}
-.mini{font-size:12px;color:#aaa}
+.carrusel img{width:100%;flex:0 0 100%;scroll-snap-align:center;aspect-ratio:1/1;object-fit:cover;background:#222}
+.contador{position:absolute;top:22px;right:22px;background:rgba(0,0,0,0.75);color:#fff;font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;z-index:2}
+.hint{font-size:11px;color:#888;text-align:center;margin-top:5px}
+.mini{font-size:12px;color:#aaa;line-height:1.4}
 .btn-del{background:#ff3b30;color:#fff;margin-top:8px}
-.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
-.modalBox{background:#151515;border:2px solid #C8FF2E;border-radius:18px;padding:18px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);display:none;align-items:flex-end;justify-content:center;padding:0;z-index:99}
+.modalBox{background:#151515;border:2px solid #C8FF2E;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));width:100%;max-width:480px;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .cerrar{background:#333;color:#fff}
-.chip{display:inline-block;background:#222;border:1px solid #C8FF2E;color:#C8FF2E;padding:4px 10px;border-radius:20px;font-size:12px;margin:4px 4px 0 0}
-.fila2{display:flex;gap:8px}.fila2>div{flex:1}
-.seccion{border:1px solid #333;border-radius:12px;padding:10px;margin-top:12px;background:#1a1a1a}
+.chip{display:inline-block;background:#222;border:1px solid #C8FF2E;color:#C8FF2E;padding:7px 12px;border-radius:20px;font-size:13px;margin:4px 4px 0 0;cursor:pointer}
+.fila2{display:flex;gap:8px}.fila2>div{flex:1;min-width:0}
+.seccion{border:1px solid #333;border-radius:12px;padding:11px;margin-top:12px;background:#1a1a1a}
 .seccion b{color:#fff;font-size:13px}
 .fotoItem{display:flex;gap:10px;align-items:center;background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:10px;margin-top:10px}
-.fotoItem img{width:70px;height:70px;object-fit:cover;border-radius:8px}
-.fotoItem input{margin-top:0}
-.colorActual{background:#C8FF2E;color:#000;font-weight:900;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-top:6px}
+.fotoItem img{width:70px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.fotoItem input{margin-top:6px}
+.colorActual{background:#C8FF2E;color:#000;font-weight:900;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-top:8px}
 .elegido{background:#1e2a00;border:1px solid #C8FF2E;border-radius:12px;padding:10px;margin-top:10px}
 .elegido img{width:100%;border-radius:10px;aspect-ratio:1/1;object-fit:cover}
-.btnTalla{display:inline-block;background:#222;color:#fff;border:1px solid #444;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:800;margin:6px 6px 0 0;cursor:pointer;width:auto}
+.btnTalla{display:inline-block;background:#222;color:#fff;border:1px solid #444;padding:11px 16px;border-radius:20px;font-size:15px;font-weight:800;margin:6px 6px 0 0;cursor:pointer;width:auto;min-width:52px;min-height:44px}
 .btnTalla.activo{background:#C8FF2E;color:#000;border-color:#C8FF2E}
 .tallasBox{margin:10px 0}
 .tallasBox b{font-size:12px;color:#C8FF2E}
 .descBox{border:1px solid #333;border-radius:10px;margin:10px 0;overflow:hidden;background:#1a1a1a}
-.descBox summary{padding:10px 12px;cursor:pointer;font-weight:800;font-size:13px;color:#C8FF2E;list-style:none}
+.descBox summary{padding:12px;cursor:pointer;font-weight:800;font-size:14px;color:#C8FF2E;list-style:none}
 .descBox summary::-webkit-details-marker{display:none}
 .descBox summary::after{content:' ▸';float:right}
 .descBox[open ] summary::after{content:' ▾'}
-.descBox p{padding:0 12px 12px;margin:0;font-size:13px;line-height:1.6;color:#ccc;white-space:pre-line}
+.descBox p{padding:0 12px 12px;margin:0;font-size:14px;line-height:1.6;color:#ccc;white-space:pre-line}
 .btn-edit{background:#C8FF2E;color:#000;width:auto;margin-top:0}
 .btn-cancelar{background:#333;color:#fff;display:none}
 .editando{background:#1e2a00 !important;border-color:#C8FF2E !important}
-.adminLink{font-size:11px;color:#666;cursor:pointer;text-decoration:none;background:none;border:none;padding:0;margin-top:4px;display:inline-block}
+.adminLink{font-size:11px;color:#666;cursor:pointer;text-decoration:none;background:none;border:none;padding:6px 0;margin-top:2px;display:inline-block;min-height:32px}
 .adminLink:hover{color:#C8FF2E}
-.headerRight{text-align:right;line-height:1.3}
-/* GOTITAS */
+.headerRight{text-align:right;line-height:1.3;font-size:12px;flex-shrink:0}
 #gotas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.tituloTop{position:relative;z-index:2;text-align:center}
+.tituloTop{position:relative;z-index:2;text-align:center;padding:0 12px}
+.seo-text{max-width:900px;margin:24px auto 0;padding:0 12px 24px;text-align:center;color:#888;font-size:13px;line-height:1.6}
+.seo-text h2{color:#fff;font-size:16px;margin:0 0 6px}
+.seo-text a{color:#C8FF2E}
+@media(max-width:600px){ .grid{grid-template-columns:1fr;gap:12px} .logo{font-size:24px} .banner{font-size:12px} .banner small{font-size:10.5px} .wrap{padding:10px 10px 20px} .card{padding:11px;border-radius:14px} .card h3{font-size:17px;line-height:1.3} .modal{align-items:flex-end} .fila2{flex-direction:row} .headerRight{font-size:11px} }
+@media(max-width:380px){ .logo{font-size:21px} .btnTalla{padding:10px 13px;min-width:46px} .fila2{flex-direction:column} }
+@media(min-width:601px){ .modal{align-items:center;padding:16px} .modalBox{border-radius:18px;padding-bottom:18px} }
 </style>
 </head>
 <body>
-<canvas id="gotas"></canvas>
-<div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE<small>Muchas prendas son internacionales y vienen de fuera.</small></div>
-<header><div class="logo">STRAN<span>GIS</span></div><div class="headerRight"><div style="font-size:12px">VALENCIA<br>STREETWEAR</div><span class="adminLink" id="btnAdmin">⚙️ admin</span></div></header>
-<p class="tituloTop" style="color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
+<canvas id="gotas" aria-hidden="true"></canvas>
+<div class="banner"><small>Muchas prendas son internacionales y vienen de fuera por lo que algunos productos puede tardar hasta 30 días.</small>🚚 ENVÍOS GRATUITOS A TODA ESPAÑA</div>
+<header><div class="logo" aria-label="STRANGIS Valencia">STRAN<span>GIS</span></div><div class="headerRight"><div>Online Shop<br>STREETWEAR</div><span class="adminLink" id="btnAdmin">⚙️ admin</span></div></header>
+
+<main>
+<h1 class="tituloTop" style="color:#C8FF2E;font-weight:900;font-size:19px;margin:14px 0 0">VESTUARIO STRANGIS - TIENDA ONLINE</h1>
 <p class="tituloTop" style="color:#999;font-size:13px;margin:4px 16px 0">1. Desliza la foto 👉 2. Elige tu talla 👇 3. Comprar</p>
 <div class="wrap">
-
 <div id="tienda">
 <div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. <b style="color:#C8FF2E">Desliza la foto</b> hasta el color que quieres<br>2. <b style="color:#C8FF2E">Pulsa tu talla</b> (se pone en verde)<br>3. Pulsa COMPRAR CON BIZUM y solo pones tus datos.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999">Aún no hay productos.</p>
 <p id="debug" style="text-align:center;color:#666;font-size:11px"></p>
 </div>
-
 <div id="admin" style="display:none">
 <div class="card" id="cardForm">
 <h2 style="margin:0" id="tituloForm">+ Nuevo Producto</h2>
@@ -121,38 +203,46 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </div>
 </div>
 
+<!-- Texto SEO visible abajo - ayuda a indexar sin molestar -->
+<section class="seo-text">
+<h2>Ropa Streetwear Moda Urbana - STRANGIS</h2>
+<p>STRANGIS es tu tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana con estilo. Envíos gratuitos a toda España y compra fácil con Bizum. Descubre la nueva colección de vestuario STRANGIS y viste con actitud.</p>
+<p><a href="https://www.strangis.es/">Tienda STRANGIS Valencia</a> · Ropa urbana · Streetwear España</p>
+</section>
+</main>
+
+<footer style="text-align:center;color:#666;font-size:12px;padding:0 12px 24px;position:relative;z-index:2">
+<p>© 2026 STRANGIS Valencia - Ropa Streetwear · Envíos gratuitos a toda España</p>
+</footer>
+
 <div id="modalPedido" class="modal">
 <div class="modalBox">
 <h2 style="margin:0" id="pedidoTitulo">Hacer pedido</h2>
 <div class="elegido">
 <p style="margin:0 0 6px;font-size:12px;color:#C8FF2E;font-weight:900">✅ HAS ELEGIDO ESTA PRENDA:</p>
-<img id="pedidoFoto">
+<img id="pedidoFoto" alt="Prenda seleccionada STRANGIS">
 <p id="pedidoResumen" style="color:#fff;font-weight:900;margin:8px 0 2px"></p>
 <p id="pedidoColorElegido" style="font-weight:900;color:#C8FF2E;margin:4px 0 0"></p>
 <p id="pedidoTallaElegida" style="font-weight:900;color:#fff;margin:4px 0 0"></p>
 <p id="pedidoDescripcion" style="font-size:12px;color:#ccc;line-height:1.5;margin:8px 0 0;white-space:pre-line"></p>
 <p style="font-size:11px;color:#888;margin:4px 0 0">Si no es esta, cierra y cambia foto / talla en la tienda.</p>
 </div>
-
 <div class="seccion"><b>👤 TUS DATOS</b>
 <label>Nombre y Apellidos *</label>
-<input id="pedNombre" placeholder="Ej: Lucía Ferrer">
+<input id="pedNombre" placeholder="Ej: Lucía Ferrer" autocomplete="name">
 <label>Teléfono / WhatsApp *</label>
-<input id="pedTelf" placeholder="Ej: 612 345 678">
+<input id="pedTelf" placeholder="Ej: 612 345 678" inputmode="tel" autocomplete="tel">
 </div>
-
 <div class="seccion"><b>📦 DIRECCIÓN DE ENVÍO</b>
 <label>Calle *</label>
-<input id="pedCalle" placeholder="Ej: Calle Azahar 24">
+<input id="pedCalle" placeholder="Ej: Calle Azahar 24" autocomplete="street-address">
 <div class="fila2"><div><label>Portal / Patio *</label><input id="pedPortal" placeholder="Ej: Portal 3"></div><div><label>Puerta *</label><input id="pedPuerta" placeholder="Ej: Puerta B"></div></div>
-<div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 2º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia"></div></div>
+<div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 2º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia" autocomplete="address-level2"></div></div>
 <label>Código Postal (C.P.) *</label>
-<input id="pedCP" placeholder="Ej: 46002" inputmode="numeric">
+<input id="pedCP" placeholder="Ej: 46002" inputmode="numeric" autocomplete="postal-code">
 </div>
-
 <label>Notas (opcional)</label>
 <input id="pedNotas" placeholder="Ej: Llamar al llegar">
-
 <div class="seccion" style="border-color:#C8FF2E"><b>💸 COMPROBAR BIZUM - MUY IMPORTANTE</b>
 <label>¿Desde qué nombre has hecho el Bizum? *</label>
 <input id="pedBizumNombre" placeholder="Ej: Lucía Ferrer o Ana Ferrer (si paga otra persona)">
@@ -161,7 +251,6 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </label>
 <p style="font-size:11px;color:#888;margin:6px 0 0">⚠️ Después de enviar el pedido, mándame en este mismo chat la captura de pantalla del Bizum. Sin captura no se prepara el pedido.</p>
 </div>
-
 <div class="envio" id="pedEnvioInfo"></div>
 <div class="bizum" id="pedBizumInfo"></div>
 <button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
@@ -169,66 +258,17 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
 </div>
 </div>
-
 <script>
 // ===== GOTITAS ESTILO NIEVE - VERDE LIMA =====
 const canvasGotas = document.getElementById('gotas');
 const ctxGotas = canvasGotas.getContext('2d');
 let W, H, gotas = [];
-function resizeGotas(){
-  W = canvasGotas.width = window.innerWidth;
-  H = canvasGotas.height = window.innerHeight;
-}
-resizeGotas();
-window.addEventListener('resize', resizeGotas);
-function crearGota(inicial){
-  return {
-    x: Math.random()*W,
-    y: inicial ? Math.random()*H : -10 - Math.random()*40,
-    r: 1 + Math.random()*3.2, // tamaño gotita
-    vel: 0.35 + Math.random()*0.85, // caída lenta
-    balanceo: Math.random()*Math.PI*2,
-    velBalanceo: 0.008 + Math.random()*0.02,
-    opacidad: 0.25 + Math.random()*0.55,
-    parada: 0, // tiempo que lleva detenida abajo
-    detenida: false
-  };
-}
+function resizeGotas(){ W = canvasGotas.width = window.innerWidth; H = canvasGotas.height = window.innerHeight; }
+resizeGotas(); window.addEventListener('resize', resizeGotas);
+function crearGota(inicial){ return { x: Math.random()*W, y: inicial ? Math.random()*H : -10 - Math.random()*40, r: 1 + Math.random()*3.2, vel: 0.35 + Math.random()*0.85, balanceo: Math.random()*Math.PI*2, velBalanceo: 0.008 + Math.random()*0.02, opacidad: 0.25 + Math.random()*0.55, parada: 0, detenida: false }; }
 for(let i=0;i<45;i++){ gotas.push(crearGota(true)); }
-function dibujarGotas(){
-  ctxGotas.clearRect(0,0,W,H);
-  gotas.forEach(function(g, idx){
-    if(!g.detenida){
-      g.y += g.vel;
-      g.balanceo += g.velBalanceo;
-      g.x += Math.sin(g.balanceo)*0.3;
-      // Cuando llega abajo, SE DETIENE un momento como en pausa
-      if(g.y >= H - 5){
-        g.detenida = true;
-        g.parada = 0;
-      }
-    } else {
-      g.parada++;
-      // Después de estar parada ~2 segundos, vuelve arriba
-      if(g.parada > 120){
-        gotas[idx] = crearGota(false);
-      }
-    }
-    // Dibujar gotita con brillito
-    ctxGotas.beginPath();
-    ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2);
-    ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')';
-    ctxGotas.fill();
-    // Brillo pequeñito dentro
-    ctxGotas.beginPath();
-    ctxGotas.arc(g.x - g.r*0.3, g.y - g.r*0.3, g.r*0.35, 0, Math.PI*2);
-    ctxGotas.fillStyle = 'rgba(255,255,255,'+(g.opacidad*0.8)+')';
-    ctxGotas.fill();
-  });
-  requestAnimationFrame(dibujarGotas);
-}
+function dibujarGotas(){ ctxGotas.clearRect(0,0,W,H); gotas.forEach(function(g, idx){ if(!g.detenida){ g.y += g.vel; g.balanceo += g.velBalanceo; g.x += Math.sin(g.balanceo)*0.3; if(g.y >= H - 5){ g.detenida = true; g.parada = 0; } } else { g.parada++; if(g.parada > 120){ gotas[idx] = crearGota(false); } } ctxGotas.beginPath(); ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')'; ctxGotas.fill(); ctxGotas.beginPath(); ctxGotas.arc(g.x - g.r*0.3, g.y - g.r*0.3, g.r*0.35, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(255,255,255,'+(g.opacidad*0.8)+')'; ctxGotas.fill(); }); requestAnimationFrame(dibujarGotas); }
 dibujarGotas();
-
 const ADMIN_PASS = "Strangis2027Vlc";
 const WHATSAPP_NUMERO = "34674559614";
 const BIZUM_NUMERO = "674559614";
@@ -236,296 +276,17 @@ const BIZUM_NOMBRE = "STRANGIS";
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let productoActual = null;
-let fotosPendientes = [];
-let editandoId = null;
+let productoActual = null; let fotosPendientes = []; let editandoId = null;
 function getRefBase(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
 function getRefColor(p, color){ const c = (color||'Única').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,10); return getRefBase(p)+'-'+c; }
 function ponerTallas(v){ document.getElementById('tallas').value = v; }
 document.getElementById('diasRapido').addEventListener('change', function(){ if(this.value) document.getElementById('dias').value = this.value; });
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-document.getElementById('foto').addEventListener('change', function(){
-  fotosPendientes = [];
-  const box = document.getElementById('listaFotosAdmin'); box.innerHTML='';
-  Array.from(this.files).forEach(function(f, idx){
-    const url = URL.createObjectURL(f);
-    const colorSugerido = idx===0 ? 'Blanca' : idx===1 ? 'Negra' : '';
-    const item = {file:f, color:colorSugerido, url:url};
-    fotosPendientes.push(item);
-    const d = document.createElement('div'); d.className='fotoItem';
-    d.innerHTML = '<img src="'+url+'"><div style="flex:1"><b>Foto '+(idx+1)+'</b><br><span class="mini">¿De qué color es esta foto?</span><input placeholder="Ej: Blanca, Negra, Verde..." value="'+colorSugerido+'"></div>';
-    const inp = d.querySelector('input');
-    inp.addEventListener('input', function(){ item.color = this.value; });
-    box.appendChild(d);
-  });
-});
-function show(v){
-  document.getElementById('tienda').style.display = v==='tienda'?'block':'none';
-  document.getElementById('admin').style.display = v==='admin'?'block':'none';
-}
-document.getElementById('btnAdmin').addEventListener('click', function(){
-  const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
-  if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
-});
+document.getElementById('foto').addEventListener('change', function(){ fotosPendientes = []; const box = document.getElementById('listaFotosAdmin'); box.innerHTML=''; Array.from(this.files).forEach(function(f, idx){ const url = URL.createObjectURL(f); const colorSugerido = idx===0 ? 'Blanca' : idx===1 ? 'Negra' : ''; const item = {file:f, color:colorSugerido, url:url}; fotosPendientes.push(item); const d = document.createElement('div'); d.className='fotoItem'; d.innerHTML = '<img src="'+url+'" alt="Vista previa foto producto STRANGIS"><div style="flex:1"><b>Foto '+(idx+1)+'</b><br><span class="mini">¿De qué color es esta foto?</span><input placeholder="Ej: Blanca, Negra, Verde..." value="'+colorSugerido+'"></div>'; const inp = d.querySelector('input'); inp.addEventListener('input', function(){ item.color = this.value; }); box.appendChild(d); }); });
+function show(v){ document.getElementById('tienda').style.display = v==='tienda'?'block':'none'; document.getElementById('admin').style.display = v==='admin'?'block':'none'; }
+document.getElementById('btnAdmin').addEventListener('click', function(){ const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:'); if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); } });
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
 function parseLista(txt){ return txt.split(',').map(function(s){return s.trim();}).filter(function(s){return s!=='';}); }
-
-function editarProducto(p, vars){
-  editandoId = p.id;
-  document.getElementById('tituloForm').innerText = '✏️ Editar Producto';
-  document.getElementById('avisoEditando').style.display = 'block';
-  document.getElementById('nombreEditando').innerText = p.name;
-  document.getElementById('cardForm').classList.add('editando');
-  document.getElementById('nombre').value = p.name || '';
-  document.getElementById('precio').value = p.price || '';
-  document.getElementById('descripcion').value = p.description || '';
-  document.getElementById('dias').value = p.shipping_days || 30;
-  document.getElementById('diasRapido').value = '';
-  let tallas = [];
-  if(vars){ tallas = [...new Set(vars.filter(function(v){ return String(v.product_id)===String(p.id); }).map(function(v){ return v.size; }).filter(Boolean))]; }
-  document.getElementById('tallas').value = tallas.length ? tallas.join(',') : 'S,M,L,XL';
-  document.getElementById('btnGuardar').innerText = '💾 GUARDAR CAMBIOS';
-  document.getElementById('btnCancelarEditar').style.display = 'block';
-  document.getElementById('zonaFotos').style.display = 'none';
-  document.getElementById('estado').innerText = '';
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-function cancelarEditar(){
-  editandoId = null;
-  document.getElementById('tituloForm').innerText = '+ Nuevo Producto';
-  document.getElementById('avisoEditando').style.display = 'none';
-  document.getElementById('cardForm').classList.remove('editando');
-  document.getElementById('nombre').value = '';
-  document.getElementById('precio').value = '';
-  document.getElementById('descripcion').value = '';
-  document.getElementById('tallas').value = 'S,M,L,XL';
-  document.getElementById('dias').value = '30';
-  document.getElementById('btnGuardar').innerText = '💾 GUARDAR PRODUCTO';
-  document.getElementById('btnCancelarEditar').style.display = 'none';
-  document.getElementById('zonaFotos').style.display = 'block';
-  document.getElementById('estado').innerText = '';
-}
-
-async function cargar(){
-  const debug = document.getElementById('debug');
-  try{
-    const res1 = await supabaseClient.from('products').select('*').order('created_at',{ascending:false});
-    if(res1.error){ debug.innerText = 'Error productos: '+res1.error.message; return; }
-    const prods = res1.data || [];
-    const res2 = await supabaseClient.from('product_images').select('*').order('position',{ascending:true});
-    const imgs = res2.data || [];
-    const res3 = await supabaseClient.from('product_variants').select('*').order('created_at',{ascending:true});
-    const vars = res3.data || [];
-    const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(prods.length===0){ document.getElementById('vacio').style.display='block'; } else { document.getElementById('vacio').style.display='none'; }
-    debug.innerText = 'Hay '+prods.length+' productos. Fotos: '+imgs.length;
-    prods.forEach(function(p){
-      const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); });
-      let urls = misImgs.map(function(i){return i.image_url;});
-      if(p.image_url) urls.unshift(p.image_url);
-      if(urls.length===0) urls = ['https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS'];
-      const misVars = vars.filter(function(v){ return String(v.product_id)===String(p.id); });
-      let coloresPorFoto = [];
-      let vistos = {};
-      misVars.forEach(function(v){ if(v.color && !vistos[v.color]){ vistos[v.color]=true; coloresPorFoto.push(v.color); } });
-      while(coloresPorFoto.length < urls.length){ coloresPorFoto.push(coloresPorFoto[coloresPorFoto.length-1] || 'Única'); }
-      coloresPorFoto = coloresPorFoto.slice(0, urls.length);
-      let tallas = [...new Set(misVars.map(function(v){return v.size;}).filter(Boolean))];
-      if(tallas.length===0) tallas = ['Única'];
-      p._tallas = tallas; p._urls = urls; p._coloresPorFoto = coloresPorFoto; p._indiceFoto = 0; p._tallaElegida = tallas[0];
-      const dias = p.shipping_days || 30;
-      const descripcion = p.description || '';
-      const div = document.createElement('div');
-      div.className = 'card';
-      let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
-      urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy">'; });
-      carruselHtml += '</div><div class="hint">👉 Desliza para cambiar de color</div>';
-      let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>';
-      tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; });
-      tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>';
-      let descHtml = '';
-      if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p>'+esc(descripcion)+'</p></details>'; }
-      div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+esc(p.name)+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + descHtml + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
-      const car = div.querySelector('.carrusel');
-      const cont = div.querySelector('.contador');
-      const colorTxt = div.querySelector('.colorTxt');
-      car.addEventListener('scroll', function(){
-        const idx = Math.round(car.scrollLeft / car.clientWidth);
-        const safeIdx = Math.max(0, Math.min(idx, urls.length-1));
-        p._indiceFoto = safeIdx;
-        cont.innerText = (safeIdx+1)+' / '+urls.length+' 📸';
-        colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única';
-      });
-      const btnsTalla = div.querySelectorAll('.btnTalla');
-      const tallaTxt = div.querySelector('.tallaElegidaTxt');
-      btnsTalla.forEach(function(b){
-        b.addEventListener('click', function(){
-          btnsTalla.forEach(function(x){ x.classList.remove('activo'); });
-          b.classList.add('activo');
-          p._tallaElegida = b.getAttribute('data-talla');
-          tallaTxt.innerText = p._tallaElegida;
-        });
-      });
-      const btn = document.createElement('button');
-      btn.innerText = '🛒 COMPRAR CON BIZUM';
-      btn.onclick = function(){ abrirPedido(p); };
-      div.appendChild(btn);
-      lista.appendChild(div);
-    });
-    cargarAdminConDatos(prods, imgs, vars);
-  }catch(e){ debug.innerText = 'Error cargar: '+e.message; }
-}
-function cargarAdmin(){ cargar(); }
-function cargarAdminConDatos(prods, imgs, vars){
-  const box = document.getElementById('listaAdmin'); if(!box) return;
-  box.innerHTML='';
-  if(prods.length===0){ box.innerHTML='<p class="mini">No hay productos.</p>'; return; }
-  prods.forEach(function(p){
-    const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); });
-    const img = misImgs.length>0 ? misImgs[0].image_url : 'https://placehold.co/200x200/111111/C8FF2E?text=STRANGIS';
-    const d = document.createElement('div');
-    d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px;flex-wrap:wrap';
-    d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1;min-width:140px"><b>'+esc(p.name)+'</b><br><span class="mini">'+p.price+' € | '+misImgs.length+' fotos / colores'+(p.description ? ' | 📝 Tiene descripción' : ' | Sin descripción')+'</span></div>';
-    const be = document.createElement('button');
-    be.innerText='✏️ Editar'; be.className='btn-edit'; be.style.width='auto';
-    be.onclick = function(){ editarProducto(p, vars); };
-    const b = document.createElement('button');
-    b.innerText='🗑️ Eliminar'; b.className='btn-del'; b.style.width='auto'; b.style.marginTop='0';
-    b.onclick = function(){ eliminarProducto(p); };
-    d.appendChild(be); d.appendChild(b); box.appendChild(d);
-  });
-}
-async function eliminarProducto(p){
-  if(!confirm('¿Seguro que quieres ELIMINAR "'+p.name+'" del stock?')) return;
-  await supabaseClient.from('product_images').delete().eq('product_id', String(p.id));
-  await supabaseClient.from('product_variants').delete().eq('product_id', String(p.id));
-  const r = await supabaseClient.from('products').delete().eq('id', p.id);
-  if(r.error){ alert('Error al eliminar: '+r.error.message); return; }
-  alert('✅ Eliminado: '+p.name);
-  cargar();
-}
-function abrirPedido(p){
-  productoActual = p;
-  const idx = p._indiceFoto || 0;
-  const colorElegido = (p._coloresPorFoto && p._coloresPorFoto[idx]) || 'Única';
-  const refElegida = getRefColor(p, colorElegido);
-  const fotoElegida = p._urls[idx] || p._urls[0];
-  const tallaElegida = p._tallaElegida || (p._tallas && p._tallas[0]) || 'Única';
-  p._colorElegido = colorElegido; p._refElegida = refElegida; p._fotoElegida = fotoElegida; p._tallaFinal = tallaElegida;
-  document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name;
-  document.getElementById('pedidoResumen').innerText = p.name + ' - ' + p.price + ' €';
-  document.getElementById('pedidoColorElegido').innerText = '🎨 Color: ' + colorElegido + ' (foto '+(idx+1)+')';
-  document.getElementById('pedidoTallaElegida').innerText = '👕 Talla: ' + tallaElegida;
-  document.getElementById('pedidoDescripcion').innerText = p.description ? p.description : '';
-  document.getElementById('pedidoFoto').src = fotoElegida;
-  document.getElementById('pedBizumImporte').innerText = p.price + ' €';
-  document.getElementById('pedBizumCheck').checked = false;
-  document.getElementById('pedBizumNombre').value = '';
-  const dias = p.shipping_days || 30;
-  document.getElementById('pedEnvioInfo').innerHTML = '🌍 Envío: ' + dias + ' días aprox.<br>Llega alrededor del ' + fechaEstimada(dias);
-  document.getElementById('pedBizumInfo').innerHTML = '💸 PAGA POR BIZUM AL:<br>' + BIZUM_NUMERO + '<br><small>' + BIZUM_NOMBRE + ' - ' + p.price + ' €</small>';
-  document.getElementById('modalPedido').style.display = 'flex';
-}
-function cerrarPedido(){ document.getElementById('modalPedido').style.display = 'none'; }
-document.getElementById('btnEnviarPedido').addEventListener('click', function(){
-  const nombre = document.getElementById('pedNombre').value.trim();
-  const telf = document.getElementById('pedTelf').value.trim();
-  const calle = document.getElementById('pedCalle').value.trim();
-  const portal = document.getElementById('pedPortal').value.trim();
-  const puerta = document.getElementById('pedPuerta').value.trim();
-  const piso = document.getElementById('pedPiso').value.trim();
-  const ciudad = document.getElementById('pedCiudad').value.trim();
-  const cp = document.getElementById('pedCP').value.trim();
-  const notas = document.getElementById('pedNotas').value.trim();
-  const bizumNombre = document.getElementById('pedBizumNombre').value.trim();
-  const bizumCheck = document.getElementById('pedBizumCheck').checked;
-  if(!nombre || !telf){ alert('Rellena Nombre y Apellidos y Teléfono'); return; }
-  if(!calle || !ciudad || !cp){ alert('Rellena Calle, Ciudad y C.P.'); return; }
-  if(!portal || !puerta || !piso){ alert('Rellena Portal / Patio, Puerta y Piso'); return; }
-  if(!bizumNombre){ alert('Pon desde qué nombre has hecho el Bizum, para que lo encuentre en el banco'); return; }
-  if(!bizumCheck){ alert('Tienes que marcar que YA has hecho el Bizum'); return; }
-  if(!productoActual){ alert('Elige un producto primero'); return; }
-  const dias = productoActual.shipping_days || 30;
-  const ref = productoActual._refElegida;
-  const color = productoActual._colorElegido;
-  const talla = productoActual._tallaFinal;
-  const foto = productoActual._fotoElegida;
-  const direccionCompleta = calle + ', ' + portal + ', ' + puerta + ', ' + piso + ', ' + ciudad + ', ' + cp;
-  const texto = '🛍️ *NUEVO PEDIDO STRANGIS*%0A%0A' +
-    'Producto: ' + encodeURIComponent(productoActual.name) + '%0A' +
-    'REF: ' + ref + '%0A' +
-    'Color elegido: ' + encodeURIComponent(color) + '%0A' +
-    'Talla elegida: ' + encodeURIComponent(talla) + '%0A' +
-    'Precio: ' + encodeURIComponent(productoActual.price + ' €') + '%0A' +
-    'Envío: ' + dias + ' días aprox.' + '%0A' +
-    '📸 Foto elegida: ' + encodeURIComponent(foto) + '%0A' +
-    'Bizum pagado a: ' + BIZUM_NUMERO + '%0A' +
-    '⚠️ ESTADO: PENDIENTE DE COMPROBAR BIZUM%0A' +
-    'Nombre del Bizum: ' + encodeURIComponent(bizumNombre) + '%0A' +
-    'Importe que dice haber pagado: ' + encodeURIComponent(productoActual.price + ' €') + '%0A%0A' +
-    'Nombre y Apellidos: ' + encodeURIComponent(nombre) + '%0A' +
-    'Teléfono: ' + encodeURIComponent(telf) + '%0A' +
-    'Calle: ' + encodeURIComponent(calle) + '%0A' +
-    'Portal / Patio: ' + encodeURIComponent(portal) + '%0A' +
-    'Puerta: ' + encodeURIComponent(puerta) + '%0A' +
-    'Piso: ' + encodeURIComponent(piso) + '%0A' +
-    'Ciudad: ' + encodeURIComponent(ciudad) + '%0A' +
-    'C.P.: ' + encodeURIComponent(cp) + '%0A' +
-    'Dirección completa: ' + encodeURIComponent(direccionCompleta) + '%0A' +
-    'Notas: ' + encodeURIComponent(notas || 'Sin notas');
-  window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + texto, '_blank');
-  cerrarPedido();
-});
-cargar();
-document.getElementById('btnGuardar').addEventListener('click', subir);
-async function subir(){
-  const nombre=document.getElementById('nombre').value.trim();
-  const precio=document.getElementById('precio').value;
-  const descripcion=document.getElementById('descripcion').value.trim();
-  const tallasTxt=document.getElementById('tallas').value;
-  const stock=document.getElementById('stock').value;
-  const dias=document.getElementById('dias').value;
-  const estado=document.getElementById('estado');
-  if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
-  if(editandoId){
-    estado.innerText='⏳ Guardando cambios...';
-    const upd = await supabaseClient.from('products').update({name:nombre, price:precio, description:descripcion, shipping_days:parseInt(dias)||30}).eq('id', editandoId);
-    if(upd.error){ estado.innerText='Error al editar: '+upd.error.message; return; }
-    estado.innerText='✅ ¡Cambios guardados!';
-    cancelarEditar();
-    cargar(); show('tienda');
-    return;
-  }
-  if(!fotosPendientes || fotosPendientes.length===0){ alert('Elige al menos 1 foto'); return; }
-  const tallas = parseLista(tallasTxt); if(tallas.length===0) tallas.push('Única');
-  for(let i=0;i<fotosPendientes.length;i++){ if(!fotosPendientes[i].color || !fotosPendientes[i].color.trim()){ alert('Pon el color de la Foto '+(i+1)); return; } }
-  estado.innerText='⏳ Subiendo '+fotosPendientes.length+' fotos / colores...';
-  const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-  let r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30,description:descripcion}).select().single();
-  if(r.error && r.error.message && r.error.message.toLowerCase().includes('description')){
-    r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}).select().single();
-    alert('⚠️ Tu tabla en Supabase aún no tiene columna description. El producto se guardó sin descripción. Añádela en Supabase > Table Editor > products > Add Column: description tipo text, y luego vuelve a guardar.');
-  }
-  if(r.error){ estado.innerText='Error: '+r.error.message; return; }
-  const prod = r.data;
-  for(let i=0;i<fotosPendientes.length;i++){
-    const item = fotosPendientes[i];
-    const colorLimpio = item.color.trim();
-    estado.innerText='⏳ Subiendo foto '+(i+1)+' - Color: '+colorLimpio+'...';
-    const fileName=prod.id+'/'+Date.now()+'_'+i+'_'+item.file.name.replace(/\s/g,'_');
-    const up = await supabaseClient.storage.from('product-images').upload(fileName,item.file);
-    if(up.error){ estado.innerText='Error foto '+(i+1)+': '+up.error.message; continue; }
-    const pub = supabaseClient.storage.from('product-images').getPublicUrl(fileName);
-    await supabaseClient.from('product_images').insert({product_id:String(prod.id),image_url:pub.data.publicUrl,position:i,source_type:'upload'});
-    for(let t of tallas){
-      await supabaseClient.from('product_variants').insert({product_id:String(prod.id),size:t,color:colorLimpio,stock:parseInt(stock)||10,sku:getRefColor(prod,colorLimpio)+'-'+t});
-    }
-  }
-  estado.innerText='✅ ¡LISTO! '+fotosPendientes.length+' colores: '+fotosPendientes.map(function(f){return f.color;}).join(', ');
-  document.getElementById('nombre').value=''; document.getElementById('descripcion').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[];
-  cargar(); show('tienda');
-}
-</script>
-</body>
-</html>
+function editarProducto(p, vars){ editandoId = p.id; document.getElementById('tituloForm').innerText = '✏️ Editar Producto'; document.getElementById('avisoEditando').style.display = 'block'; document.getElementById('nombreEditando').innerText = p.name; document.getElementById('cardForm').classList.add('editando'); document.getElementById('nombre').value = p.name || ''; document.getElementById('precio').value = p.price || ''; document.getElementById('descripcion').value = p.description || ''; document.getElementById('dias').value = p.shipping_days || 30; document.getElementById('diasRapido').value = ''; let tallas = []; if(vars){ tallas = [...new Set(vars.filter(function(v){ return String(v.product_id)===String(p.id); }).map(function(v){ return v.size; }).filter(Boolean))]; } document.getElementById('tallas').value = tallas.length ? tallas.join(',') : 'S,M,L,XL'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR CAMBIOS'; document.getElementById('btnCancelarEditar').style.display = 'block'; document.getElementById('zonaFotos').style.display = 'none'; document.getElementById('estado').innerText = ''; window.scrollTo({top:0, behavior:'smooth'}); }
+function cancelarEditar(){ editandoId = null; document.getElementById('tituloForm').innerText = '+ Nuevo Producto'; document.getElementById('avisoEditando').style.display = 'none'; document.getElementById('cardForm').classList.remove('editando'); document.getElementById('nombre').value = ''; document.getElementById('precio').value = ''; document.getElementById('descripcion').value = ''; document.getElementById('tallas').value = 'S,M,L,XL'; document.getElementById('dias').value = '30'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR PRODUCTO'; document.getElementById('btnCancelarEditar').style.display = 'none'; document.getElementById('zonaFotos').style.display = 'block'; document.getElementById('estado').innerText = ''; }
+async function cargar(){ const debug = document.getElementById('debug'); try{ const res1 = await supabaseClient.from('products').select('*').order('created_at',{ascending:false}); if(res1.error){ debug.innerText = 'Error productos: '+res1.error.message; return; } const prods = res1.data || []; const res2 = await supabaseClient.from('product_images').select('*').order('position',{ascending:true}); const imgs = res2.data || []; const res3 = await supabaseClient.from('product_variants').select('*').order('created_at',{ascending:true}); const vars = res3.data || []; const lista=document.getElementById('lista'); lista.innerHTML=''; if(prods.length===0){ document.getElementById('vacio').style.display='block'; } else { document.getElementById('vacio').style.display='none'; } debug.innerText = 'Hay '+prods.length+' productos. Fotos: '+imgs.length; prods.forEach(function(p){ const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); }); let urls = misImgs.map(function(i){return i.image_url;}); if(p.image_url) urls.unshift(p.image_url); if(urls.length===0) urls = ['https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS']; const misVars = vars.filter(function(v){ return String(v.product_id)===String(p.id); }); let coloresPorFoto = []; let vistos = {}; misVars.forEach(function(v){ if(v.color && !vistos[v.color]){ vistos[v.color]=true; coloresPorFoto.push(v.color); } }); while(coloresPorFoto.length < urls.length){ coloresPorFoto.push(coloresPorFoto[coloresPorFoto.length-1] || 'Única'); } coloresPorFoto = coloresPorFoto.slice(0, urls.length); let tallas = [...new Set(misVars.map(function(v){return v.size;}).filter(Boolean))]; if(tallas.length===0) tallas = ['Única']; p._tallas = tallas; p._urls = urls; p._coloresPorFoto = coloresPorFoto; p._indiceFoto = 0; p._tallaElegida = tallas[0]; const dias = p.shipping_days || 30; const descripcion = p.description || ''; const div = document.createElement('article'); div.className = 'card'; div.setAttribute('itemscope',''); div.setAttribute('itemtype','https://schema.org/Product'); let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">'; urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy" alt="'+esc(p.name)+' - Color ' + esc(coloresPorFoto[urls.indexOf(u)] || '') + ' - STRANGIS Valencia" itemprop="image">'; }); carruselHtml += '</div><div class="hint">👉 Desliza para cambiar de color</div>'; let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>'; tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; }); tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>'; let descHtml = ''; if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p itemprop="description">'+esc(descripcion)+'</p></details>'; } div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px" itemprop="name">'+esc(p.name)+'</h3><span class="badge">NUEVO</span><p class="price" itemprop="offers" itemscope itemtype="https://schema.org/Offer"><span itemprop="price">'+p.price+'</span> <span itemprop="priceCurrency">EUR</span> €</p>' + descHtml + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>'; const car = div.querySelector('.carrusel'); const cont = div.querySelector('.contador'); const colorTxt = div.querySelector('.colorTxt'); car.addEventListener('scroll', function(){ const idx = Math.round(car.scrollLeft / car.clientWidth); const safeIdx = Math.max(0, Math.min(idx, urls.length-1)); p._indiceFoto = safeIdx; cont.innerText = (safeIdx+1)+' / '+urls.length+' 📸'; colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única'; }); const btnsTalla = div.querySelectorAll('.btnTalla'); const tallaTxt = div.querySelector('.tallaElegidaTxt'); btnsTalla.forEach(function(b){ b.addEventListener('click', function(){ btnsTalla.forEach(function(x
