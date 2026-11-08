@@ -13,11 +13,12 @@ header{padding:16px 20px;display:flex;justify-content:space-between;align-items:
 .logo{font-weight:900;font-size:28px;letter-spacing:2px}.logo span{color:#C8FF2E}
 button{background:#C8FF2E;color:#000;border:0;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
 input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
+label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px}
 .wrap{max-width:900px;margin:auto;padding:16px}
-.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px}
-.card img{width:100%;border-radius:12px;aspect-ratio:1/1;object-fit:cover;background:#222}
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px;position:relative}
 .price{color:#C8FF2E;font-weight:900;font-size:20px;margin:6px 0}
 .badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
+.ref{font-size:11px;color:#888}
 .envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0}
 .bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:16px;margin:10px 0}
 .tabs{display:flex;gap:10px;margin-bottom:16px}
@@ -25,50 +26,85 @@ input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px soli
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
 .info{background:#151515;border:1px solid #333;border-radius:14px;padding:14px;font-size:13px;line-height:1.6;color:#ccc}
+/* CARRUSEL */
+.carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none}
+.carrusel::-webkit-scrollbar{display:none}
+.carrusel img{width:100%;flex-shrink:0;scroll-snap-align:center;aspect-ratio:1/1;object-fit:cover;background:#222}
+.dots{text-align:center;margin:6px 0 0;font-size:16px;color:#C8FF2E}
+.contador{position:absolute;top:24px;right:24px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;font-weight:800;padding:4px 8px;border-radius:20px;z-index:2}
+.hint{font-size:11px;color:#888;text-align:center;margin-top:4px}
+/* ADMIN */
+.mini{font-size:12px;color:#aaa}
+.btn-del{background:#ff3b30;color:#fff;margin-top:8px}
+.btn-del2{background:#333;color:#fff}
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
 .modalBox{background:#151515;border:2px solid #C8FF2E;border-radius:18px;padding:18px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
 .cerrar{background:#333;color:#fff}
+.preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.preview img{width:70px;height:70px;object-fit:cover;border-radius:8px;border:2px solid #C8FF2E}
+.chip{display:inline-block;background:#222;border:1px solid #C8FF2E;color:#C8FF2E;padding:4px 10px;border-radius:20px;font-size:12px;margin:4px 4px 0 0}
 </style>
 </head>
 <body>
 <div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE<small>Muchas prendas son internacionales y vienen de fuera.</small></div>
 <header><div class="logo">STRAN<span>GIS</span></div><div style="font-size:12px;text-align:right">VALENCIA<br>STREETWEAR</div></header>
 <p style="text-align:center;color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
-<p style="text-align:center;color:#999;font-size:13px;margin:4px 16px 0">Hoodies oversize, camisetas y drops exclusivos. Prendas internacionales con envío en 30 días aprox.</p>
+<p style="text-align:center;color:#999;font-size:13px;margin:4px 16px 0">Desliza las fotos para ver todas las imágenes 👉</p>
 <div class="wrap">
 <div class="tabs">
 <button id="btnTienda" class="active">🛍️ Tienda</button>
 <button id="btnAdmin">⚙️ Admin</button>
 </div>
+
 <div id="tienda">
-<div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. Pulsa <b style="color:#C8FF2E">COMPRAR CON BIZUM</b><br>2. Rellena tus datos<br>3. Haz Bizum al número que te sale y mándanos el pedido por WhatsApp.</div>
+<div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. Desliza las fotos de la prenda 👉<br>2. Pulsa <b style="color:#C8FF2E">COMPRAR CON BIZUM</b><br>3. Rellena tus datos y haz Bizum.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999">Aún no hay productos.</p>
 <p id="debug" style="text-align:center;color:#666;font-size:11px"></p>
 </div>
+
 <div id="admin" style="display:none">
 <div class="card">
 <h2 style="margin:0">+ Nuevo Producto</h2>
 <small>Zona privada STRANGIS - Solo dueño.</small>
-<input id="nombre" placeholder="Nombre: Ej: Hoodie Oversize Negro STRANGIS">
-<input id="precio" type="number" placeholder="Precio: Ej: 39.99">
-<div style="display:flex;gap:8px">
-<select id="talla"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-<select id="color"><option>Negro</option><option>Verde Lima</option><option>Blanco</option><option>Gris</option></select>
-</div>
+
+<label>Nombre del producto *</label>
+<input id="nombre" placeholder="Ej: Causeta Negra STRANGIS">
+
+<label>Precio *</label>
+<input id="precio" type="number" placeholder="Ej: 35">
+
+<label>👕 TALLAS - Escribe las que quieras, separadas por comas</label>
+<input id="tallas" placeholder="Ej: S,M,L,XL  o  Única  o  40,41,42,43" value="S,M,L,XL">
+<div><span class="chip" onclick="ponerTallas('Única')">Única / Gorra</span><span class="chip" onclick="ponerTallas('S,M,L,XL,XXL')">Ropa S-XXL</span><span class="chip" onclick="ponerTallas('36,37,38,39,40,41,42,43,44,45')">Zapas 36-45</span></div>
+
+<label>🎨 COLORES - Escribe los que quieras, separados por comas</label>
+<input id="colores" placeholder="Ej: Negro, Verde Lima, Blanco" value="Negro">
+<div><span class="chip" onclick="ponerColores('Negro')">Negro</span><span class="chip" onclick="ponerColores('Negro,Blanco')">Negro + Blanco</span><span class="chip" onclick="ponerColores('Negro,Verde Lima,Blanco,Gris')">Varios</span></div>
+
+<label>Stock (unidades)</label>
 <input id="stock" type="number" value="10">
-<label style="display:block;margin-top:12px;font-weight:800">🚚 ¿Cuánto tarda esta prenda?</label>
-<select id="dias">
-<option value="30">🌍 Internacional - 30 días aprox.</option>
-<option value="15">✈️ Internacional rápido - 15 días aprox.</option>
-<option value="7">🇪🇸 Nacional - 7 días aprox.</option>
-<option value="3">⚡ En stock Valencia - 2-3 días</option>
-</select>
-<label style="display:block;margin-top:12px;font-weight:800">📸 Foto - Captura desde tu móvil</label>
-<input id="foto" type="file" accept="image/*">
+
+<label>🚚 DÍAS DE ENVÍO - Pon los días que quieras</label>
+<div style="display:flex;gap:8px">
+<input id="dias" type="number" value="30" placeholder="Ej: 30" style="flex:1">
+<select id="diasRapido" style="flex:1"><option value="">O elige rápido...</option><option value="30">🌍 30 días</option><option value="15">✈️ 15 días</option><option value="7">🇪🇸 7 días</option><option value="3">⚡ 3 días</option></select>
+</div>
+
+<label>📸 FOTOS - Puedes elegir VARIAS fotos a la vez</label>
+<input id="foto" type="file" accept="image/*" multiple>
+<div id="previewFotos" class="preview"></div>
+<p class="mini">En el móvil, deja pulsado para elegir varias fotos de la galería. El cliente podrá deslizarlas.</p>
+
 <button id="btnGuardar">💾 GUARDAR PRODUCTO</button>
 <p id="estado"></p>
 <button onclick="show('tienda')" style="background:#333;color:#fff">🔒 Cerrar Admin</button>
+</div>
+
+<div class="card">
+<h2 style="margin:0">📦 Mis productos en stock</h2>
+<p class="mini">Aquí puedes eliminar lo que ya no vendes.</p>
+<div id="listaAdmin"></div>
 </div>
 </div>
 </div>
@@ -77,44 +113,48 @@ input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px soli
 <div class="modalBox">
 <h2 style="margin:0" id="pedidoTitulo">Hacer pedido</h2>
 <p id="pedidoResumen" style="color:#C8FF2E;font-weight:800"></p>
-<input id="pedNombre" placeholder="Tu nombre completo *">
-<input id="pedTelf" placeholder="Tu teléfono / WhatsApp *">
-<select id="pedTalla"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option></select>
-<textarea id="pedDireccion" placeholder="Dirección completa para el envío * (calle, piso, ciudad, CP)"></textarea>
-<input id="pedNotas" placeholder="Notas (opcional)">
+<p id="pedidoRef" class="ref"></p>
+<label>Tu nombre completo *</label>
+<input id="pedNombre" placeholder="Ej: Francisco Moreno Moreno">
+<label>Tu teléfono / WhatsApp *</label>
+<input id="pedTelf" placeholder="Tu teléfono">
+<label>👕 Elige tu TALLA *</label>
+<select id="pedTalla"></select>
+<label>🎨 Elige tu COLOR</label>
+<select id="pedColor"></select>
+<label>Dirección completa *</label>
+<textarea id="pedDireccion" placeholder="Calle, piso, ciudad, CP"></textarea>
+<label>Notas (opcional)</label>
+<input id="pedNotas" placeholder="Notas">
 <div class="envio" id="pedEnvioInfo"></div>
 <div class="bizum" id="pedBizumInfo"></div>
 <button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
-<p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido y se abrirá WhatsApp con tu pedido listo.</p>
+<p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido.</p>
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
 </div>
 </div>
 
 <script>
 const ADMIN_PASS = "Strangis2027Vlc";
-
-// ============================================
-// 👇👇👇 AQUÍ CAMBIA TUS NÚMEROS 👇👇👇
-// ============================================
-
-// 1️⃣ NÚMERO DONDE TE LLEGAN LOS PEDIDOS POR WHATSAPP
-// Ponlo con 34 delante. Ejemplo: si tu móvil es 612345678 -> pon 34612345678
-const WHATSAPP_NUMERO = "34607877328";
-
-// 2️⃣ NÚMERO DE BIZUM DONDE TE TIENEN QUE PAGAR
-// Este es el que verá el cliente en la pantalla de pedido
-// Ponlo normal, sin 34. Ejemplo: 612345678
-const BIZUM_NUMERO = "34674559614";
+const WHATSAPP_NUMERO = "34674559614";
+const BIZUM_NUMERO = "674559614";
 const BIZUM_NOMBRE = "STRANGIS";
-
-// ============================================
-// 👆👆👆 HASTA AQUÍ - NO TOQUES MÁS ABAJO 👆👆👆
-// ============================================
-
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let productoActual = null;
+let todosProductos = [];
+function getRef(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
+function ponerTallas(v){ document.getElementById('tallas').value = v; }
+function ponerColores(v){ document.getElementById('colores').value = v; }
+document.getElementById('diasRapido').addEventListener('change', function(){ if(this.value) document.getElementById('dias').value = this.value; });
+document.getElementById('foto').addEventListener('change', function(){
+  const box = document.getElementById('previewFotos'); box.innerHTML='';
+  Array.from(this.files).forEach(function(f){
+    const url = URL.createObjectURL(f);
+    const im = document.createElement('img'); im.src = url; box.appendChild(im);
+  });
+});
 function show(v){
   document.getElementById('tienda').style.display = v==='tienda'?'block':'none';
   document.getElementById('admin').style.display = v==='admin'?'block':'none';
@@ -124,42 +164,94 @@ function show(v){
 document.getElementById('btnTienda').addEventListener('click', function(){ show('tienda'); });
 document.getElementById('btnAdmin').addEventListener('click', function(){
   const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
-  if(pass === ADMIN_PASS){ show('admin'); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
+  if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
 });
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
+function parseLista(txt){ return txt.split(',').map(function(s){return s.trim();}).filter(function(s){return s!=='';}); }
+
 async function cargar(){
   const debug = document.getElementById('debug');
   try{
     const res1 = await supabaseClient.from('products').select('*').order('created_at',{ascending:false});
     if(res1.error){ debug.innerText = 'Error productos: '+res1.error.message; return; }
-    const prods = res1.data;
+    const prods = res1.data || [];
+    todosProductos = prods;
     const res2 = await supabaseClient.from('product_images').select('*');
     const imgs = res2.data || [];
+    const res3 = await supabaseClient.from('product_variants').select('*');
+    const vars = res3.data || [];
     const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(!prods || prods.length===0){ document.getElementById('vacio').style.display='block'; return; }
+    if(prods.length===0){ document.getElementById('vacio').style.display='block'; return; }
     document.getElementById('vacio').style.display='none';
     debug.innerText = 'Hay '+prods.length+' productos. Fotos: '+imgs.length;
     prods.forEach(function(p){
-      let img = 'https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS';
-      const encontrada = imgs.find(function(i){ return String(i.product_id) === String(p.id); });
-      if(encontrada && encontrada.image_url) img = encontrada.image_url;
-      if(p.image_url) img = p.image_url;
+      const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); });
+      let urls = misImgs.map(function(i){return i.image_url;});
+      if(p.image_url) urls.unshift(p.image_url);
+      if(urls.length===0) urls = ['https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS'];
+      const misVars = vars.filter(function(v){ return String(v.product_id)===String(p.id); });
+      let tallas = [...new Set(misVars.map(function(v){return v.size;}).filter(Boolean))];
+      let colores = [...new Set(misVars.map(function(v){return v.color;}).filter(Boolean))];
+      if(tallas.length===0) tallas = ['Única'];
+      if(colores.length===0) colores = ['Negro'];
+      p._tallas = tallas; p._colores = colores; p._urls = urls;
       const dias = p.shipping_days || 30;
       const div = document.createElement('div');
       div.className = 'card';
-      div.innerHTML = '<img src="'+img+'"><h3 style="margin:10px 0 4px">'+p.name+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p><div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
+      urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy">'; });
+      carruselHtml += '</div><div class="hint">👉 Desliza para ver '+urls.length+' fotos</div>';
+      div.innerHTML = carruselHtml + '<h3 style="margin:10px 0 4px">'+p.name+'</h3><p class="ref">REF: '+getRef(p)+' | Tallas: '+tallas.join(', ')+' | Colores: '+colores.join(', ')+'</p><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p><div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      const car = div.querySelector('.carrusel');
+      const cont = div.querySelector('.contador');
+      car.addEventListener('scroll', function(){ const idx = Math.round(car.scrollLeft / car.clientWidth)+1; cont.innerText = idx+' / '+urls.length+' 📸'; });
       const btn = document.createElement('button');
       btn.innerText = '🛒 COMPRAR CON BIZUM';
       btn.onclick = function(){ abrirPedido(p); };
       div.appendChild(btn);
       lista.appendChild(div);
     });
+    cargarAdminConDatos(prods, imgs);
   }catch(e){ debug.innerText = 'Error cargar: '+e.message; }
 }
+
+function cargarAdmin(){ cargar(); }
+function cargarAdminConDatos(prods, imgs){
+  const box = document.getElementById('listaAdmin'); if(!box) return;
+  box.innerHTML='';
+  if(prods.length===0){ box.innerHTML='<p class="mini">No hay productos.</p>'; return; }
+  prods.forEach(function(p){
+    const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); });
+    const img = misImgs.length>0 ? misImgs[0].image_url : 'https://placehold.co/200x200/111111/C8FF2E?text=STRANGIS';
+    const d = document.createElement('div');
+    d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px';
+    d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1"><b>'+p.name+'</b><br><span class="mini">REF: '+getRef(p)+' | '+p.price+' € | '+misImgs.length+' fotos</span></div>';
+    const b = document.createElement('button');
+    b.innerText='🗑️ Eliminar'; b.className='btn-del'; b.style.width='auto'; b.style.marginTop='0';
+    b.onclick = function(){ eliminarProducto(p); };
+    d.appendChild(b); box.appendChild(d);
+  });
+}
+
+async function eliminarProducto(p){
+  if(!confirm('¿Seguro que quieres ELIMINAR "'+p.name+'" del stock?\nSe borrará de la tienda para siempre.')) return;
+  await supabaseClient.from('product_images').delete().eq('product_id', String(p.id));
+  await supabaseClient.from('product_variants').delete().eq('product_id', String(p.id));
+  const r = await supabaseClient.from('products').delete().eq('id', p.id);
+  if(r.error){ alert('Error al eliminar: '+r.error.message); return; }
+  alert('✅ Eliminado: '+p.name);
+  cargar();
+}
+
 function abrirPedido(p){
   productoActual = p;
   document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name;
   document.getElementById('pedidoResumen').innerText = p.name + ' - ' + p.price + ' €';
+  document.getElementById('pedidoRef').innerText = 'REF del producto: ' + getRef(p);
+  const selT = document.getElementById('pedTalla'); selT.innerHTML='';
+  (p._tallas||['Única']).forEach(function(t){ const o=document.createElement('option'); o.text=t; selT.appendChild(o); });
+  const selC = document.getElementById('pedColor'); selC.innerHTML='';
+  (p._colores||['Negro']).forEach(function(c){ const o=document.createElement('option'); o.text=c; selC.appendChild(o); });
   const dias = p.shipping_days || 30;
   document.getElementById('pedEnvioInfo').innerHTML = '🌍 Envío: ' + dias + ' días aprox.<br>Llega alrededor del ' + fechaEstimada(dias);
   document.getElementById('pedBizumInfo').innerHTML = '💸 PAGA POR BIZUM AL:<br>' + BIZUM_NUMERO + '<br><small>' + BIZUM_NOMBRE + ' - ' + p.price + ' €</small>';
@@ -170,15 +262,19 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
   const nombre = document.getElementById('pedNombre').value.trim();
   const telf = document.getElementById('pedTelf').value.trim();
   const talla = document.getElementById('pedTalla').value;
+  const color = document.getElementById('pedColor').value;
   const dir = document.getElementById('pedDireccion').value.trim();
   const notas = document.getElementById('pedNotas').value.trim();
   if(!nombre || !telf || !dir){ alert('Rellena nombre, teléfono y dirección porfa'); return; }
   if(!productoActual){ alert('Elige un producto primero'); return; }
   const dias = productoActual.shipping_days || 30;
+  const ref = getRef(productoActual);
   const texto = '🛍️ *NUEVO PEDIDO STRANGIS*%0A%0A' +
     'Producto: ' + encodeURIComponent(productoActual.name) + '%0A' +
+    'REF: ' + ref + '%0A' +
     'Precio: ' + encodeURIComponent(productoActual.price + ' €') + '%0A' +
     'Talla: ' + encodeURIComponent(talla) + '%0A' +
+    'Color: ' + encodeURIComponent(color) + '%0A' +
     'Envío: ' + dias + ' días aprox.' + '%0A' +
     'Bizum pagado a: ' + BIZUM_NUMERO + '%0A%0A' +
     'Nombre: ' + encodeURIComponent(nombre) + '%0A' +
@@ -191,28 +287,39 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
 cargar();
 document.getElementById('btnGuardar').addEventListener('click', subir);
 async function subir(){
-  const nombre=document.getElementById('nombre').value;
+  const nombre=document.getElementById('nombre').value.trim();
   const precio=document.getElementById('precio').value;
-  const talla=document.getElementById('talla').value;
-  const color=document.getElementById('color').value;
+  const tallasTxt=document.getElementById('tallas').value;
+  const coloresTxt=document.getElementById('colores').value;
   const stock=document.getElementById('stock').value;
   const dias=document.getElementById('dias').value;
-  const file=document.getElementById('foto').files[0];
+  const files=document.getElementById('foto').files;
   const estado=document.getElementById('estado');
   if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
-  if(!file){ alert('Elige una captura'); return; }
-  estado.innerText='⏳ Subiendo...';
+  if(!files || files.length===0){ alert('Elige al menos 1 foto'); return; }
+  const tallas = parseLista(tallasTxt); if(tallas.length===0) tallas.push('Única');
+  const colores = parseLista(coloresTxt); if(colores.length===0) colores.push('Negro');
+  estado.innerText='⏳ Subiendo '+files.length+' fotos...';
   const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-  const r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)}).select().single();
+  const r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}).select().single();
   if(r.error){ estado.innerText='Error: '+r.error.message; return; }
   const prod = r.data;
-  const fileName=prod.id+'/'+Date.now()+'_'+file.name.replace(/\s/g,'_');
-  const up = await supabaseClient.storage.from('product-images').upload(fileName,file);
-  if(up.error){ estado.innerText='Error foto: '+up.error.message; return; }
-  const pub = supabaseClient.storage.from('product-images').getPublicUrl(fileName);
-  await supabaseClient.from('product_images').insert({product_id:String(prod.id),image_url:pub.data.publicUrl,position:0,source_type:'upload'});
-  await supabaseClient.from('product_variants').insert({product_id:String(prod.id),size:talla,color:color,stock:parseInt(stock),sku:'STR-'+String(prod.id).slice(0,8).toUpperCase()});
-  estado.innerText='✅ ¡LISTO! Ya está en la tienda';
+  for(let i=0;i<files.length;i++){
+    const file = files[i];
+    estado.innerText='⏳ Subiendo foto '+(i+1)+' de '+files.length+'...';
+    const fileName=prod.id+'/'+Date.now()+'_'+i+'_'+file.name.replace(/\s/g,'_');
+    const up = await supabaseClient.storage.from('product-images').upload(fileName,file);
+    if(up.error){ estado.innerText='Error foto '+(i+1)+': '+up.error.message; continue; }
+    const pub = supabaseClient.storage.from('product-images').getPublicUrl(fileName);
+    await supabaseClient.from('product_images').insert({product_id:String(prod.id),image_url:pub.data.publicUrl,position:i,source_type:'upload'});
+  }
+  for(let t of tallas){
+    for(let c of colores){
+      await supabaseClient.from('product_variants').insert({product_id:String(prod.id),size:t,color:c,stock:parseInt(stock)||10,sku:'STR-'+String(prod.id).slice(0,8).toUpperCase()+'-'+t});
+    }
+  }
+  estado.innerText='✅ ¡LISTO! '+files.length+' fotos, tallas: '+tallas.join(', ')+', colores: '+colores.join(', ');
+  document.getElementById('nombre').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('previewFotos').innerHTML='';
   cargar(); show('tienda');
 }
 </script>
