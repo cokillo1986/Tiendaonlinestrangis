@@ -6,7 +6,6 @@
 <title>STRANGIS | Ropa Streetwear Valencia - Tienda Online | Envíos Gratis</title>
 <meta name="description" content="STRANGIS - Tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana. Envíos gratuitos a toda España. Compra fácil con Bizum.">
 <meta name="keywords" content="STRANGIS, ropa streetwear Valencia, tienda ropa urbana Valencia, camiseta oversize, sudadera streetwear, ropa urbana España, tienda online streetwear, vestuario STRANGIS">
-<meta name="author" content="STRANGIS Valencia">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="canonical" href="https://www.strangis.es/">
@@ -17,12 +16,7 @@
 <meta property="og:url" content="https://www.strangis.es/">
 <meta property="og:image" content="https://www.strangis.es/og-strangis.jpg">
 <meta property="og:locale" content="es_ES">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="STRANGIS | Ropa Streetwear Valencia">
-<meta name="twitter:description" content="Tienda online de ropa streetwear en Valencia. Envíos gratis a toda España.">
-<meta name="twitter:image" content="https://www.strangis.es/og-strangis.jpg">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ClothingStore","name":"STRANGIS","description":"Tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana con envíos gratuitos a toda España.","url":"https://www.strangis.es/","telephone":"+34-674-55-96-14","priceRange":"€€","currenciesAccepted":"EUR","paymentAccepted":"Bizum","address":{"@type":"PostalAddress","addressLocality":"Valencia","addressRegion":"Comunidad Valenciana","addressCountry":"ES"}}</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ClothingStore","name":"STRANGIS","description":"Tienda online de ropa streetwear en Valencia.","url":"https://www.strangis.es/","telephone":"+34-674-55-96-14","priceRange":"€€","currenciesAccepted":"EUR","paymentAccepted":"Bizum","address":{"@type":"PostalAddress","addressLocality":"Valencia","addressRegion":"Comunidad Valenciana","addressCountry":"ES"}}</script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{max-width:100%;overflow-x:hidden}
@@ -83,7 +77,6 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .tituloTop{position:relative;z-index:2;text-align:center;padding:0 12px}
 .seo-text{max-width:900px;margin:24px auto 0;padding:0 12px 24px;text-align:center;color:#888;font-size:13px;line-height:1.6}
 .seo-text h2{color:#fff;font-size:16px;margin:0 0 6px}
-.seo-text a{color:#C8FF2E}
 #debugBox{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:10px;font-size:11px;color:#aaa;margin-top:12px;word-break:break-word}
 @media(max-width:600px){ .grid{grid-template-columns:1fr;gap:12px} .logo{font-size:24px} .banner{font-size:12px} .banner small{font-size:10.5px} .wrap{padding:10px 10px 20px} .card{padding:11px;border-radius:14px} .card h3{font-size:17px;line-height:1.3} .modal{align-items:flex-end} .fila2{flex-direction:row} .headerRight{font-size:11px} }
 @media(max-width:380px){ .logo{font-size:21px} .btnTalla{padding:10px 13px;min-width:46px} .fila2{flex-direction:column} }
@@ -102,7 +95,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. <b style="color:#C8FF2E">Desliza la foto</b> hasta el color que quieres<br>2. <b style="color:#C8FF2E">Pulsa tu talla</b> (se pone en verde)<br>3. Pulsa COMPRAR CON BIZUM y solo pones tus datos.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999;display:none">Aún no hay productos.</p>
-<div id="debugBox">⏳ Cargando productos...<br><span id="debug"></span></div>
+<div id="debugBox">⏳ Cargando productos...<br><span id="debug"></span><br><button id="btnReintentar" style="margin-top:8px;padding:8px">🔄 Reintentar carga</button></div>
 </div>
 <div id="admin" style="display:none">
 <div class="card" id="cardForm">
@@ -143,6 +136,8 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
 </div></div>
 <script>
+// ===== GOTITAS =====
+try{
 const canvasGotas = document.getElementById('gotas');
 const ctxGotas = canvasGotas.getContext('2d');
 let W, H, gotas = [];
@@ -150,18 +145,151 @@ function resizeGotas(){ W = canvasGotas.width = window.innerWidth; H = canvasGot
 resizeGotas(); window.addEventListener('resize', resizeGotas);
 function crearGota(inicial){ return { x: Math.random()*W, y: inicial ? Math.random()*H : -10 - Math.random()*40, r: 1 + Math.random()*3.2, vel: 0.35 + Math.random()*0.85, balanceo: Math.random()*Math.PI*2, velBalanceo: 0.008 + Math.random()*0.02, opacidad: 0.25 + Math.random()*0.55, parada: 0, detenida: false }; }
 for(let i=0;i<45;i++){ gotas.push(crearGota(true)); }
-function dibujarGotas(){ ctxGotas.clearRect(0,0,W,H); gotas.forEach(function(g, idx){ if(!g.detenida){ g.y += g.vel; g.balanceo += g.velBalanceo; g.x += Math.sin(g.balanceo)*0.3; if(g.y >= H - 5){ g.detenida = true; g.parada = 0; } } else { g.parada++; if(g.parada > 120){ gotas[idx] = crearGota(false); } } ctxGotas.beginPath(); ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')'; ctxGotas.fill(); ctxGotas.beginPath(); ctxGotas.arc(g.x - g.r*0.3, g.y - g.r*0.3, g.r*0.35, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(255,255,255,'+(g.opacidad*0.8)+')'; ctxGotas.fill(); }); requestAnimationFrame(dibujarGotas); }
+function dibujarGotas(){ ctxGotas.clearRect(0,0,W,H); gotas.forEach(function(g, idx){ if(!g.detenida){ g.y += g.vel; g.balanceo += g.velBalanceo; g.x += Math.sin(g.balanceo)*0.3; if(g.y >= H - 5){ g.detenida = true; g.parada = 0; } } else { g.parada++; if(g.parada > 120){ gotas[idx] = crearGota(false); } } ctxGotas.beginPath(); ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')'; ctxGotas.fill(); }); requestAnimationFrame(dibujarGotas); }
 dibujarGotas();
+}catch(e){ console.log('gotas off', e); }
+
 const ADMIN_PASS = "Strangis2027Vlc";
 const WHATSAPP_NUMERO = "34674559614";
 const BIZUM_NUMERO = "674559614";
 const BIZUM_NOMBRE = "STRANGIS";
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ===== SUPABASE SIN SDK - fetch directo, no depende de CDN =====
+function sbHeaders(extra){
+  const h = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+  if(extra) for(let k in extra) h[k]=extra[k];
+  return h;
+}
+async function sbGet(table, query){
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { headers: sbHeaders() });
+  if(!res.ok){ const t = await res.text(); throw new Error(table + ' ' + res.status + ' ' + t.slice(0,200)); }
+  return await res.json();
+}
+async function sbInsert(table, body){
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table, { method:'POST', headers: sbHeaders(), body: JSON.stringify(body) });
+  if(!res.ok){ const t = await res.text(); throw new Error(table + ' insert ' + res.status + ' ' + t.slice(0,300)); }
+  const j = await res.json(); return Array.isArray(j) ? j[0] : j;
+}
+async function sbUpdate(table, query, body){
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'PATCH', headers: sbHeaders(), body: JSON.stringify(body) });
+  if(!res.ok){ const t = await res.text(); throw new Error(table + ' update ' + res.status + ' ' + t.slice(0,300)); }
+  return await res.json();
+}
+async function sbDelete(table, query){
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'DELETE', headers: sbHeaders() });
+  if(!res.ok){ const t = await res.text(); throw new Error(table + ' delete ' + res.status + ' ' + t.slice(0,300)); }
+  return true;
+}
+async function sbUpload(fileName, file){
+  const res = await fetch(SUPABASE_URL + '/storage/v1/object/product-images/' + fileName, { method:'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': file.type || 'image/jpeg', 'x-upsert': 'true' }, body: file });
+  if(!res.ok){ const t = await res.text(); throw new Error('storage ' + res.status + ' ' + t.slice(0,300)); }
+  return SUPABASE_URL + '/storage/v1/object/public/product-images/' + fileName;
+}
+
 let productoActual = null; let fotosPendientes = []; let editandoId = null;
 function getRefBase(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
 function getRefColor(p, color){ const c = (color||'Única').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,10); return getRefBase(p)+'-'+c; }
 function ponerTallas(v){ document.getElementById('tallas').value = v; }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function show(v){ document.getElementById('tienda').style.display = v==='tienda'?'block':'none'; document.getElementById('admin').style.display = v==='admin'?'block':'none'; }
+function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
+function parseLista(txt){ return txt.split(',').map(function(s){return s.trim();}).filter(function(s){return s!=='';}); }
+
+// ADMIN - se engancha lo primero, aunque falle la carga
+document.getElementById('btnAdmin').addEventListener('click', function(){
+  const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
+  if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
+});
+document.getElementById('btnReintentar').addEventListener('click', function(){ cargar(); });
 document.getElementById('diasRapido').addEventListener('change', function(){ if(this.value) document.getElementById('dias').value = this.value; });
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</
+document.getElementById('foto').addEventListener('change', function(){ fotosPendientes = []; const box = document.getElementById('listaFotosAdmin'); box.innerHTML=''; Array.from(this.files).forEach(function(f, idx){ const url = URL.createObjectURL(f); const colorSugerido = idx===0 ? 'Blanca' : idx===1 ? 'Negra' : ''; const item = {file:f, color:colorSugerido, url:url}; fotosPendientes.push(item); const d = document.createElement('div'); d.className='fotoItem'; d.innerHTML = '<img src="'+url+'"><div style="flex:1"><b>Foto '+(idx+1)+'</b><br><span class="mini">¿De qué color es esta foto?</span><input placeholder="Ej: Blanca, Negra, Verde..." value="'+colorSugerido+'"></div>'; const inp = d.querySelector('input'); inp.addEventListener('input', function(){ item.color = this.value; }); box.appendChild(d); }); });
+
+function editarProducto(p, vars){ editandoId = p.id; document.getElementById('tituloForm').innerText = '✏️ Editar Producto'; document.getElementById('avisoEditando').style.display = 'block'; document.getElementById('nombreEditando').innerText = p.name; document.getElementById('cardForm').classList.add('editando'); document.getElementById('nombre').value = p.name || ''; document.getElementById('precio').value = p.price || ''; document.getElementById('descripcion').value = p.description || ''; document.getElementById('dias').value = p.shipping_days || 30; document.getElementById('diasRapido').value = ''; let tallas = []; if(vars){ tallas = [...new Set(vars.filter(function(v){ return String(v.product_id)===String(p.id); }).map(function(v){ return v.size; }).filter(Boolean))]; } document.getElementById('tallas').value = tallas.length ? tallas.join(',') : 'S,M,L,XL'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR CAMBIOS'; document.getElementById('btnCancelarEditar').style.display = 'block'; document.getElementById('zonaFotos').style.display = 'none'; document.getElementById('estado').innerText = ''; window.scrollTo({top:0, behavior:'smooth'}); }
+function cancelarEditar(){ editandoId = null; document.getElementById('tituloForm').innerText = '+ Nuevo Producto'; document.getElementById('avisoEditando').style.display = 'none'; document.getElementById('cardForm').classList.remove('editando'); document.getElementById('nombre').value = ''; document.getElementById('precio').value = ''; document.getElementById('descripcion').value = ''; document.getElementById('tallas').value = 'S,M,L,XL'; document.getElementById('dias').value = '30'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR PRODUCTO'; document.getElementById('btnCancelarEditar').style.display = 'none'; document.getElementById('zonaFotos').style.display = 'block'; document.getElementById('estado').innerText = ''; }
+
+async function cargar(){
+  const debugEl = document.getElementById('debug');
+  debugEl.innerText = 'Conectando directo a Supabase (sin CDN)...';
+  try{
+    const prods = await sbGet('products', 'select=*&order=created_at.desc');
+    debugEl.innerText = 'Productos: ' + prods.length;
+    const imgs = await sbGet('product_images', 'select=*&order=position.asc');
+    const vars = await sbGet('product_variants', 'select=*&order=created_at.asc');
+    const lista=document.getElementById('lista'); lista.innerHTML='';
+    if(prods.length===0){ document.getElementById('vacio').style.display='block'; debugEl.innerText += ' | Tabla vacía'; } else { document.getElementById('vacio').style.display='none'; }
+    debugEl.innerText += ' | Fotos: ' + imgs.length + ' | Variantes: ' + vars.length;
+    prods.forEach(function(p){
+      const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); });
+      let urls = misImgs.map(function(i){return i.image_url;});
+      if(p.image_url) urls.unshift(p.image_url);
+      if(urls.length===0) urls = ['https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS'];
+      const misVars = vars.filter(function(v){ return String(v.product_id)===String(p.id); });
+      let coloresPorFoto = []; let vistos = {};
+      misVars.forEach(function(v){ if(v.color && !vistos[v.color]){ vistos[v.color]=true; coloresPorFoto.push(v.color); } });
+      while(coloresPorFoto.length < urls.length){ coloresPorFoto.push(coloresPorFoto[coloresPorFoto.length-1] || 'Única'); }
+      coloresPorFoto = coloresPorFoto.slice(0, urls.length);
+      let tallas = [...new Set(misVars.map(function(v){return v.size;}).filter(Boolean))];
+      if(tallas.length===0) tallas = ['Única'];
+      p._tallas = tallas; p._urls = urls; p._coloresPorFoto = coloresPorFoto; p._indiceFoto = 0; p._tallaElegida = tallas[0];
+      const dias = p.shipping_days || 30; const descripcion = p.description || '';
+      const div = document.createElement('div'); div.className = 'card';
+      let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
+      urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy" alt="'+esc(p.name)+' STRANGIS">'; });
+      carruselHtml += '</div><div class="hint">👉 Desliza para cambiar de color</div>';
+      let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>';
+      tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; });
+      tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>';
+      let descHtml = ''; if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p>'+esc(descripcion)+'</p></details>'; }
+      div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+esc(p.name)+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + descHtml + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      const car = div.querySelector('.carrusel'); const cont = div.querySelector('.contador'); const colorTxt = div.querySelector('.colorTxt');
+      car.addEventListener('scroll', function(){ const idx = Math.round(car.scrollLeft / car.clientWidth); const safeIdx = Math.max(0, Math.min(idx, urls.length-1)); p._indiceFoto = safeIdx; cont.innerText = (safeIdx+1)+' / '+urls.length+' 📸'; colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única'; });
+      const btnsTalla = div.querySelectorAll('.btnTalla'); const tallaTxt = div.querySelector('.tallaElegidaTxt');
+      btnsTalla.forEach(function(b){ b.addEventListener('click', function(){ btnsTalla.forEach(function(x){ x.classList.remove('activo'); }); b.classList.add('activo'); p._tallaElegida = b.getAttribute('data-talla'); tallaTxt.innerText = p._tallaElegida; }); });
+      const btn = document.createElement('button'); btn.innerText = '🛒 COMPRAR CON BIZUM'; btn.onclick = function(){ abrirPedido(p); }; div.appendChild(btn); lista.appendChild(div);
+    });
+    cargarAdminConDatos(prods, imgs, vars);
+  }catch(e){ debugEl.innerText = '❌ Error: ' + e.message; console.error(e); }
+}
+function cargarAdmin(){ cargar(); }
+function cargarAdminConDatos(prods, imgs, vars){ const box = document.getElementById('listaAdmin'); if(!box) return; box.innerHTML=''; if(prods.length===0){ box.innerHTML='<p class="mini">No hay productos.</p>'; return; } prods.forEach(function(p){ const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }); const img = misImgs.length>0 ? misImgs[0].image_url : 'https://placehold.co/200x200/111111/C8FF2E?text=STRANGIS'; const d = document.createElement('div'); d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px;flex-wrap:wrap'; d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1;min-width:140px"><b>'+esc(p.name)+'</b><br><span class="mini">'+p.price+' € | '+misImgs.length+' fotos / colores'+(p.description ? ' | 📝 Tiene descripción' : ' | Sin descripción')+'</span></div>'; const be = document.createElement('button'); be.innerText='✏️ Editar'; be.className='btn-edit'; be.style.width='auto'; be.onclick = function(){ editarProducto(p, vars); }; const b = document.createElement('button'); b.innerText='🗑️ Eliminar'; b.className='btn-del'; b.style.width='auto'; b.style.marginTop='0'; b.onclick = function(){ eliminarProducto(p); }; d.appendChild(be); d.appendChild(b); box.appendChild(d); }); }
+async function eliminarProducto(p){ if(!confirm('¿Seguro que quieres ELIMINAR "'+p.name+'" del stock?')) return; try{ await sbDelete('product_images', 'product_id=eq.' + encodeURIComponent(String(p.id))); await sbDelete('product_variants', 'product_id=eq.' + encodeURIComponent(String(p.id))); await sbDelete('products', 'id=eq.' + encodeURIComponent(String(p.id))); alert('✅ Eliminado: '+p.name); cargar(); }catch(e){ alert('Error al eliminar: ' + e.message); } }
+function abrirPedido(p){ productoActual = p; const idx = p._indiceFoto || 0; const colorElegido = (p._coloresPorFoto && p._coloresPorFoto[idx]) || 'Única'; const refElegida = getRefColor(p, colorElegido); const fotoElegida = p._urls[idx] || p._urls[0]; const tallaElegida = p._tallaElegida || (p._tallas && p._tallas[0]) || 'Única'; p._colorElegido = colorElegido; p._refElegida = refElegida; p._fotoElegida = fotoElegida; p._tallaFinal = tallaElegida; document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name; document.getElementById('pedidoResumen').innerText = p.name + ' - ' + p.price + ' €'; document.getElementById('pedidoColorElegido').innerText = '🎨 Color: ' + colorElegido + ' (foto '+(idx+1)+')'; document.getElementById('pedidoTallaElegida').innerText = '👕 Talla: ' + tallaElegida; document.getElementById('pedidoDescripcion').innerText = p.description ? p.description : ''; document.getElementById('pedidoFoto').src = fotoElegida; document.getElementById('pedBizumImporte').innerText = p.price + ' €'; document.getElementById('pedBizumCheck').checked = false; document.getElementById('pedBizumNombre').value = ''; const dias = p.shipping_days || 30; document.getElementById('pedEnvioInfo').innerHTML = '🌍 Envío: ' + dias + ' días aprox.<br>Llega alrededor del ' + fechaEstimada(dias); document.getElementById('pedBizumInfo').innerHTML = '💸 PAGA POR BIZUM AL:<br>' + BIZUM_NUMERO + '<br><small>' + BIZUM_NOMBRE + ' - ' + p.price + ' €</small>'; document.getElementById('modalPedido').style.display = 'flex'; }
+function cerrarPedido(){ document.getElementById('modalPedido').style.display = 'none'; }
+document.getElementById('btnEnviarPedido').addEventListener('click', function(){ const nombre = document.getElementById('pedNombre').value.trim(); const telf = document.getElementById('pedTelf').value.trim(); const calle = document.getElementById('pedCalle').value.trim(); const portal = document.getElementById('pedPortal').value.trim(); const puerta = document.getElementById('pedPuerta').value.trim(); const piso = document.getElementById('pedPiso').value.trim(); const ciudad = document.getElementById('pedCiudad').value.trim(); const cp = document.getElementById('pedCP').value.trim(); const notas = document.getElementById('pedNotas').value.trim(); const bizumNombre = document.getElementById('pedBizumNombre').value.trim(); const bizumCheck = document.getElementById('pedBizumCheck').checked; if(!nombre || !telf){ alert('Rellena Nombre y Apellidos y Teléfono'); return; } if(!calle || !ciudad || !cp){ alert('Rellena Calle, Ciudad y C.P.'); return; } if(!portal || !puerta || !piso){ alert('Rellena Portal / Patio, Puerta y Piso'); return; } if(!bizumNombre){ alert('Pon desde qué nombre has hecho el Bizum'); return; } if(!bizumCheck){ alert('Tienes que marcar que YA has hecho el Bizum'); return; } if(!productoActual){ alert('Elige un producto primero'); return; } const dias = productoActual.shipping_days || 30; const ref = productoActual._refElegida; const color = productoActual._colorElegido; const talla = productoActual._tallaFinal; const foto = productoActual._fotoElegida; const direccionCompleta = calle + ', ' + portal + ', ' + puerta + ', ' + piso + ', ' + ciudad + ', ' + cp; const texto = '🛍️ *NUEVO PEDIDO STRANGIS*%0A%0A' + 'Producto: ' + encodeURIComponent(productoActual.name) + '%0A' + 'REF: ' + ref + '%0A' + 'Color elegido: ' + encodeURIComponent(color) + '%0A' + 'Talla elegida: ' + encodeURIComponent(talla) + '%0A' + 'Precio: ' + encodeURIComponent(productoActual.price + ' €') + '%0A' + 'Envío: ' + dias + ' días aprox.' + '%0A' + '📸 Foto elegida: ' + encodeURIComponent(foto) + '%0A' + 'Bizum pagado a: ' + BIZUM_NUMERO + '%0A' + '⚠️ ESTADO: PENDIENTE DE COMPROBAR BIZUM%0A' + 'Nombre del Bizum: ' + encodeURIComponent(bizumNombre) + '%0A' + 'Importe que dice haber pagado: ' + encodeURIComponent(productoActual.price + ' €') + '%0A%0A' + 'Nombre y Apellidos: ' + encodeURIComponent(nombre) + '%0A' + 'Teléfono: ' + encodeURIComponent(telf) + '%0A' + 'Calle: ' + encodeURIComponent(calle) + '%0A' + 'Portal / Patio: ' + encodeURIComponent(portal) + '%0A' + 'Puerta: ' + encodeURIComponent(puerta) + '%0A' + 'Piso: ' + encodeURIComponent(piso) + '%0A' + 'Ciudad: ' + encodeURIComponent(ciudad) + '%0A' + 'C.P.: ' + encodeURIComponent(cp) + '%0A' + 'Dirección completa: ' + encodeURIComponent(direccionCompleta) + '%0A' + 'Notas: ' + encodeURIComponent(notas || 'Sin notas'); window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + texto, '_blank'); cerrarPedido(); });
+document.getElementById('btnGuardar').addEventListener('click', subir);
+async function subir(){
+  const nombre=document.getElementById('nombre').value.trim(); const precio=document.getElementById('precio').value; const descripcion=document.getElementById('descripcion').value.trim(); const tallasTxt=document.getElementById('tallas').value; const stock=document.getElementById('stock').value; const dias=document.getElementById('dias').value; const estado=document.getElementById('estado');
+  if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
+  try{
+    if(editandoId){
+      estado.innerText='⏳ Guardando cambios...';
+      await sbUpdate('products', 'id=eq.' + encodeURIComponent(String(editandoId)), {name:nombre, price:precio, description:descripcion, shipping_days:parseInt(dias)||30});
+      estado.innerText='✅ ¡Cambios guardados!'; cancelarEditar(); cargar(); show('tienda'); return;
+    }
+    if(!fotosPendientes || fotosPendientes.length===0){ alert('Elige al menos 1 foto'); return; }
+    const tallas = parseLista(tallasTxt); if(tallas.length===0) tallas.push('Única');
+    for(let i=0;i<fotosPendientes.length;i++){ if(!fotosPendientes[i].color || !fotosPendientes[i].color.trim()){ alert('Pon el color de la Foto '+(i+1)); return; } }
+    estado.innerText='⏳ Subiendo '+fotosPendientes.length+' fotos / colores...';
+    const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
+    let prod;
+    try{ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30,description:descripcion}); }
+    catch(e){ if(String(e.message).toLowerCase().includes('description')){ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}); alert('⚠️ Tu tabla no tiene columna description, guardado sin descripción.'); } else throw e; }
+    for(let i=0;i<fotosPendientes.length;i++){
+      const item = fotosPendientes[i]; const colorLimpio = item.color.trim();
+      estado.innerText='⏳ Subiendo foto '+(i+1)+' - Color: '+colorLimpio+'...';
+      const fileName=prod.id+'/'+Date.now()+'_'+i+'_'+item.file.name.replace(/\s/g,'_');
+      const publicUrl = await sbUpload(fileName, item.file);
+      await sbInsert('product_images', {product_id:String(prod.id),image_url:publicUrl,position:i,source_type:'upload'});
+      for(let t of tallas){ await sbInsert('product_variants', {product_id:String(prod.id),size:t,color:colorLimpio,stock:parseInt(stock)||10,sku:getRefColor(prod,colorLimpio)+'-'+t}); }
+    }
+    estado.innerText='✅ ¡LISTO! '+fotosPendientes.length+' colores: '+fotosPendientes.map(function(f){return f.color;}).join(', ');
+    document.getElementById('nombre').value=''; document.getElementById('descripcion').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[]; cargar(); show('tienda');
+  }catch(e){ estado.innerText='Error: ' + e.message; console.error(e); }
+}
+// Arrancar
+cargar();
+</script>
+</body>
+</html>
