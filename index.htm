@@ -119,26 +119,26 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 
 <div class="seccion"><b>👤 TUS DATOS</b>
 <label>Nombre y Apellidos *</label>
-<input id="pedNombre" placeholder="Ej: Francisco Moreno Moreno">
+<input id="pedNombre" placeholder="Ej: Lucía Ferrer">
 <label>Teléfono / WhatsApp *</label>
-<input id="pedTelf" placeholder="Ej: 674559614">
+<input id="pedTelf" placeholder="Ej: 612 345 678">
 </div>
 
 <div class="seccion"><b>📦 DIRECCIÓN DE ENVÍO</b>
 <label>Calle *</label>
-<input id="pedCalle" placeholder="Ej: Calle Valencia 12">
-<div class="fila2"><div><label>Portal / Patio *</label><input id="pedPortal" placeholder="Ej: Portal 2"></div><div><label>Puerta *</label><input id="pedPuerta" placeholder="Ej: Puerta A"></div></div>
-<div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 3º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia"></div></div>
+<input id="pedCalle" placeholder="Ej: Calle Azahar 24">
+<div class="fila2"><div><label>Portal / Patio *</label><input id="pedPortal" placeholder="Ej: Portal 3"></div><div><label>Puerta *</label><input id="pedPuerta" placeholder="Ej: Puerta B"></div></div>
+<div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 2º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia"></div></div>
 <label>Código Postal (C.P.) *</label>
-<input id="pedCP" placeholder="Ej: 46001" inputmode="numeric">
+<input id="pedCP" placeholder="Ej: 46002" inputmode="numeric">
 </div>
 
 <label>Notas (opcional)</label>
-<input id="pedNotas" placeholder="Ej: Dejar en portería">
+<input id="pedNotas" placeholder="Ej: Llamar al llegar">
 
 <div class="seccion" style="border-color:#C8FF2E"><b>💸 COMPROBAR BIZUM - MUY IMPORTANTE</b>
 <label>¿Desde qué nombre has hecho el Bizum? *</label>
-<input id="pedBizumNombre" placeholder="Ej: Francisco Moreno o María García (si paga otra persona)">
+<input id="pedBizumNombre" placeholder="Ej: Lucía Ferrer o Ana Ferrer (si paga otra persona)">
 <label style="color:#fff;font-weight:400;font-size:13px;line-height:1.4">
 <input type="checkbox" id="pedBizumCheck" style="width:auto;margin-right:6px"> ✅ Confirmo que YA he hecho el Bizum de <b id="pedBizumImporte" style="color:#C8FF2E"></b> al 674559614
 </label>
@@ -306,7 +306,6 @@ function abrirPedido(p){
   document.getElementById('pedidoColorElegido').innerText = '🎨 Color: ' + colorElegido + ' (foto '+(idx+1)+')';
   document.getElementById('pedidoTallaElegida').innerText = '👕 Talla: ' + tallaElegida;
   document.getElementById('pedidoFoto').src = fotoElegida;
-  // NUEVO - Bizum
   document.getElementById('pedBizumImporte').innerText = p.price + ' €';
   document.getElementById('pedBizumCheck').checked = false;
   document.getElementById('pedBizumNombre').value = '';
