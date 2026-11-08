@@ -12,18 +12,22 @@
 header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E}
 .logo{font-weight:900;font-size:28px;letter-spacing:2px}.logo span{color:#C8FF2E}
 button{background:#C8FF2E;color:#000;border:0;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
-input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
+input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
 .wrap{max-width:900px;margin:auto;padding:16px}
 .card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px}
 .card img{width:100%;border-radius:12px;aspect-ratio:1/1;object-fit:cover;background:#222}
 .price{color:#C8FF2E;font-weight:900;font-size:20px;margin:6px 0}
 .badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
 .envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0}
+.bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:16px;margin:10px 0}
 .tabs{display:flex;gap:10px;margin-bottom:16px}
 .tabs button{background:#222;color:#fff}.tabs button.active{background:#C8FF2E;color:#000}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
 .info{background:#151515;border:1px solid #333;border-radius:14px;padding:14px;font-size:13px;line-height:1.6;color:#ccc}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
+.modalBox{background:#151515;border:2px solid #C8FF2E;border-radius:18px;padding:18px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
+.cerrar{background:#333;color:#fff}
 </style>
 </head>
 <body>
@@ -37,9 +41,9 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 <button id="btnAdmin">⚙️ Admin</button>
 </div>
 <div id="tienda">
-<div class="info">ℹ️ <b style="color:#fff">¿Cuánto tarda?</b><br>La mayoría de nuestras prendas son internacionales. El envío tarda <b style="color:#C8FF2E">unos 30 días aproximadamente</b>.</div>
+<div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. Pulsa <b style="color:#C8FF2E">COMPRAR CON BIZUM</b><br>2. Rellena tus datos<br>3. Haz Bizum al número que te sale y mándanos el pedido por WhatsApp.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
-<p id="vacio" style="text-align:center;color:#999">Aún no hay productos. Sube el primero desde Admin.</p>
+<p id="vacio" style="text-align:center;color:#999">Aún no hay productos.</p>
 <p id="debug" style="text-align:center;color:#666;font-size:11px"></p>
 </div>
 <div id="admin" style="display:none">
@@ -68,8 +72,49 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 </div>
 </div>
 </div>
+
+<div id="modalPedido" class="modal">
+<div class="modalBox">
+<h2 style="margin:0" id="pedidoTitulo">Hacer pedido</h2>
+<p id="pedidoResumen" style="color:#C8FF2E;font-weight:800"></p>
+<input id="pedNombre" placeholder="Tu nombre completo *">
+<input id="pedTelf" placeholder="Tu teléfono / WhatsApp *">
+<select id="pedTalla"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option></select>
+<textarea id="pedDireccion" placeholder="Dirección completa para el envío * (calle, piso, ciudad, CP)"></textarea>
+<input id="pedNotas" placeholder="Notas (opcional)">
+<div class="envio" id="pedEnvioInfo"></div>
+<div class="bizum" id="pedBizumInfo"></div>
+<button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
+<p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido y se abrirá WhatsApp con tu pedido listo.</p>
+<button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
+</div>
+</div>
+
 <script>
 const ADMIN_PASS = "Strangis2027Vlc";
+
+// ============================================
+// 👇👇👇 AQUÍ CAMBIA TUS NÚMEROS 👇👇👇
+// ============================================
+
+// 1️⃣ NÚMERO DONDE TE LLEGAN LOS PEDIDOS POR WHATSAPP
+// Ponlo con 34 delante. Ejemplo: si tu móvil es 612345678 -> pon 34612345678
+const WHATSAPP_NUMERO = "34607877328";
+
+// 2️⃣ NÚMERO DE BIZUM DONDE TE TIENEN QUE PAGAR
+// Este es el que verá el cliente en la pantalla de pedido
+// Ponlo normal, sin 34. Ejemplo: 612345678
+const BIZUM_NUMERO = "34674559614";
+const BIZUM_NOMBRE = "STRANGIS";
+
+// ============================================
+// 👆👆👆 HASTA AQUÍ - NO TOQUES MÁS ABAJO 👆👆👆
+// ============================================
+
+const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let productoActual = null;
 function show(v){
   document.getElementById('tienda').style.display = v==='tienda'?'block':'none';
   document.getElementById('admin').style.display = v==='admin'?'block':'none';
@@ -81,9 +126,6 @@ document.getElementById('btnAdmin').addEventListener('click', function(){
   const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
   if(pass === ADMIN_PASS){ show('admin'); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
 });
-const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
-const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
 async function cargar(){
   const debug = document.getElementById('debug');
@@ -94,7 +136,7 @@ async function cargar(){
     const res2 = await supabaseClient.from('product_images').select('*');
     const imgs = res2.data || [];
     const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(!prods || prods.length===0){ document.getElementById('vacio').style.display='block'; debug.innerText='0 productos en Supabase'; return; }
+    if(!prods || prods.length===0){ document.getElementById('vacio').style.display='block'; return; }
     document.getElementById('vacio').style.display='none';
     debug.innerText = 'Hay '+prods.length+' productos. Fotos: '+imgs.length;
     prods.forEach(function(p){
@@ -103,10 +145,49 @@ async function cargar(){
       if(encontrada && encontrada.image_url) img = encontrada.image_url;
       if(p.image_url) img = p.image_url;
       const dias = p.shipping_days || 30;
-      lista.innerHTML += '<div class="card"><img src="'+img+'"><h3 style="margin:10px 0 4px">'+p.name+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p><div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div><button onclick="alert(\'Pedido: '+p.name+'\')">🛒 COMPRAR CON BIZUM</button></div>';
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = '<img src="'+img+'"><h3 style="margin:10px 0 4px">'+p.name+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p><div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      const btn = document.createElement('button');
+      btn.innerText = '🛒 COMPRAR CON BIZUM';
+      btn.onclick = function(){ abrirPedido(p); };
+      div.appendChild(btn);
+      lista.appendChild(div);
     });
   }catch(e){ debug.innerText = 'Error cargar: '+e.message; }
 }
+function abrirPedido(p){
+  productoActual = p;
+  document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name;
+  document.getElementById('pedidoResumen').innerText = p.name + ' - ' + p.price + ' €';
+  const dias = p.shipping_days || 30;
+  document.getElementById('pedEnvioInfo').innerHTML = '🌍 Envío: ' + dias + ' días aprox.<br>Llega alrededor del ' + fechaEstimada(dias);
+  document.getElementById('pedBizumInfo').innerHTML = '💸 PAGA POR BIZUM AL:<br>' + BIZUM_NUMERO + '<br><small>' + BIZUM_NOMBRE + ' - ' + p.price + ' €</small>';
+  document.getElementById('modalPedido').style.display = 'flex';
+}
+function cerrarPedido(){ document.getElementById('modalPedido').style.display = 'none'; }
+document.getElementById('btnEnviarPedido').addEventListener('click', function(){
+  const nombre = document.getElementById('pedNombre').value.trim();
+  const telf = document.getElementById('pedTelf').value.trim();
+  const talla = document.getElementById('pedTalla').value;
+  const dir = document.getElementById('pedDireccion').value.trim();
+  const notas = document.getElementById('pedNotas').value.trim();
+  if(!nombre || !telf || !dir){ alert('Rellena nombre, teléfono y dirección porfa'); return; }
+  if(!productoActual){ alert('Elige un producto primero'); return; }
+  const dias = productoActual.shipping_days || 30;
+  const texto = '🛍️ *NUEVO PEDIDO STRANGIS*%0A%0A' +
+    'Producto: ' + encodeURIComponent(productoActual.name) + '%0A' +
+    'Precio: ' + encodeURIComponent(productoActual.price + ' €') + '%0A' +
+    'Talla: ' + encodeURIComponent(talla) + '%0A' +
+    'Envío: ' + dias + ' días aprox.' + '%0A' +
+    'Bizum pagado a: ' + BIZUM_NUMERO + '%0A%0A' +
+    'Nombre: ' + encodeURIComponent(nombre) + '%0A' +
+    'Teléfono: ' + encodeURIComponent(telf) + '%0A' +
+    'Dirección: ' + encodeURIComponent(dir) + '%0A' +
+    'Notas: ' + encodeURIComponent(notas || 'Sin notas');
+  window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + texto, '_blank');
+  cerrarPedido();
+});
 cargar();
 document.getElementById('btnGuardar').addEventListener('click', subir);
 async function subir(){
