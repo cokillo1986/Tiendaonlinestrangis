@@ -6,15 +6,15 @@
 <title>Vestuario STRANGIS | Ropa Streetwear Valencia</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif}
-.banner{background:#C8FF2E;color:#000;text-align:center;padding:10px 12px;font-weight:900;font-size:13px}
+*{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif;overflow-x:hidden}
+.banner{background:#C8FF2E;color:#000;text-align:center;padding:10px 12px;font-weight:900;font-size:13px;position:relative;z-index:2}
 .banner small{display:block;font-weight:700;font-size:11px}
-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E}
+header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #C8FF2E;position:relative;z-index:2}
 .logo{font-weight:900;font-size:28px;letter-spacing:2px}.logo span{color:#C8FF2E}
 button{background:#C8FF2E;color:#000;border:0;padding:12px 16px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:10px}
 input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px}
 label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px}
-.wrap{max-width:900px;margin:auto;padding:16px}
+.wrap{max-width:900px;margin:auto;padding:16px;position:relative;z-index:2}
 .card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:14px;margin-bottom:16px;position:relative}
 .price{color:#C8FF2E;font-weight:900;font-size:20px;margin:6px 0}
 .badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
@@ -57,17 +57,20 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .btn-edit{background:#C8FF2E;color:#000;width:auto;margin-top:0}
 .btn-cancelar{background:#333;color:#fff;display:none}
 .editando{background:#1e2a00 !important;border-color:#C8FF2E !important}
-/* ADMIN EN ESQUINA COMO TEXTO */
 .adminLink{font-size:11px;color:#666;cursor:pointer;text-decoration:none;background:none;border:none;padding:0;margin-top:4px;display:inline-block}
 .adminLink:hover{color:#C8FF2E}
 .headerRight{text-align:right;line-height:1.3}
+/* GOTITAS */
+#gotas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.tituloTop{position:relative;z-index:2;text-align:center}
 </style>
 </head>
 <body>
+<canvas id="gotas"></canvas>
 <div class="banner">🚚 ENVÍO EN 30 DÍAS APROXIMADAMENTE<small>Muchas prendas son internacionales y vienen de fuera.</small></div>
 <header><div class="logo">STRAN<span>GIS</span></div><div class="headerRight"><div style="font-size:12px">VALENCIA<br>STREETWEAR</div><span class="adminLink" id="btnAdmin">⚙️ admin</span></div></header>
-<p style="text-align:center;color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
-<p style="text-align:center;color:#999;font-size:13px;margin:4px 16px 0">1. Desliza la foto 👉 2. Elige tu talla 👇 3. Comprar</p>
+<p class="tituloTop" style="color:#C8FF2E;font-weight:900;font-size:15px;margin:14px 0 0">VESTUARIO STRANGIS - STREETWEAR VALENCIA</p>
+<p class="tituloTop" style="color:#999;font-size:13px;margin:4px 16px 0">1. Desliza la foto 👉 2. Elige tu talla 👇 3. Comprar</p>
 <div class="wrap">
 
 <div id="tienda">
@@ -168,6 +171,64 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </div>
 
 <script>
+// ===== GOTITAS ESTILO NIEVE - VERDE LIMA =====
+const canvasGotas = document.getElementById('gotas');
+const ctxGotas = canvasGotas.getContext('2d');
+let W, H, gotas = [];
+function resizeGotas(){
+  W = canvasGotas.width = window.innerWidth;
+  H = canvasGotas.height = window.innerHeight;
+}
+resizeGotas();
+window.addEventListener('resize', resizeGotas);
+function crearGota(inicial){
+  return {
+    x: Math.random()*W,
+    y: inicial ? Math.random()*H : -10 - Math.random()*40,
+    r: 1 + Math.random()*3.2, // tamaño gotita
+    vel: 0.35 + Math.random()*0.85, // caída lenta
+    balanceo: Math.random()*Math.PI*2,
+    velBalanceo: 0.008 + Math.random()*0.02,
+    opacidad: 0.25 + Math.random()*0.55,
+    parada: 0, // tiempo que lleva detenida abajo
+    detenida: false
+  };
+}
+for(let i=0;i<45;i++){ gotas.push(crearGota(true)); }
+function dibujarGotas(){
+  ctxGotas.clearRect(0,0,W,H);
+  gotas.forEach(function(g, idx){
+    if(!g.detenida){
+      g.y += g.vel;
+      g.balanceo += g.velBalanceo;
+      g.x += Math.sin(g.balanceo)*0.3;
+      // Cuando llega abajo, SE DETIENE un momento como en pausa
+      if(g.y >= H - 5){
+        g.detenida = true;
+        g.parada = 0;
+      }
+    } else {
+      g.parada++;
+      // Después de estar parada ~2 segundos, vuelve arriba
+      if(g.parada > 120){
+        gotas[idx] = crearGota(false);
+      }
+    }
+    // Dibujar gotita con brillito
+    ctxGotas.beginPath();
+    ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2);
+    ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')';
+    ctxGotas.fill();
+    // Brillo pequeñito dentro
+    ctxGotas.beginPath();
+    ctxGotas.arc(g.x - g.r*0.3, g.y - g.r*0.3, g.r*0.35, 0, Math.PI*2);
+    ctxGotas.fillStyle = 'rgba(255,255,255,'+(g.opacidad*0.8)+')';
+    ctxGotas.fill();
+  });
+  requestAnimationFrame(dibujarGotas);
+}
+dibujarGotas();
+
 const ADMIN_PASS = "Strangis2027Vlc";
 const WHATSAPP_NUMERO = "34674559614";
 const BIZUM_NUMERO = "674559614";
