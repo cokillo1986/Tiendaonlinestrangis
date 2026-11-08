@@ -26,23 +26,24 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
 .info{background:#151515;border:1px solid #333;border-radius:14px;padding:14px;font-size:13px;line-height:1.6;color:#ccc}
-/* CARRUSEL */
 .carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none}
 .carrusel::-webkit-scrollbar{display:none}
 .carrusel img{width:100%;flex-shrink:0;scroll-snap-align:center;aspect-ratio:1/1;object-fit:cover;background:#222}
 .dots{text-align:center;margin:6px 0 0;font-size:16px;color:#C8FF2E}
 .contador{position:absolute;top:24px;right:24px;background:rgba(0,0,0,0.7);color:#fff;font-size:11px;font-weight:800;padding:4px 8px;border-radius:20px;z-index:2}
 .hint{font-size:11px;color:#888;text-align:center;margin-top:4px}
-/* ADMIN */
 .mini{font-size:12px;color:#aaa}
 .btn-del{background:#ff3b30;color:#fff;margin-top:8px}
-.btn-del2{background:#333;color:#fff}
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
 .modalBox{background:#151515;border:2px solid #C8FF2E;border-radius:18px;padding:18px;width:100%;max-width:420px;max-height:90vh;overflow:auto}
 .cerrar{background:#333;color:#fff}
 .preview{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .preview img{width:70px;height:70px;object-fit:cover;border-radius:8px;border:2px solid #C8FF2E}
 .chip{display:inline-block;background:#222;border:1px solid #C8FF2E;color:#C8FF2E;padding:4px 10px;border-radius:20px;font-size:12px;margin:4px 4px 0 0}
+.fila2{display:flex;gap:8px}
+.fila2>div{flex:1}
+.seccion{border:1px solid #333;border-radius:12px;padding:10px;margin-top:12px;background:#1a1a1a}
+.seccion b{color:#fff;font-size:13px}
 </style>
 </head>
 <body>
@@ -57,7 +58,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </div>
 
 <div id="tienda">
-<div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. Desliza las fotos de la prenda 👉<br>2. Pulsa <b style="color:#C8FF2E">COMPRAR CON BIZUM</b><br>3. Rellena tus datos y haz Bizum.</div>
+<div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. Desliza las fotos de la prenda 👉<br>2. Pulsa <b style="color:#C8FF2E">COMPRAR CON BIZUM</b><br>3. Rellena tus datos completos y haz Bizum.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999">Aún no hay productos.</p>
 <p id="debug" style="text-align:center;color:#666;font-size:11px"></p>
@@ -67,40 +68,31 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <div class="card">
 <h2 style="margin:0">+ Nuevo Producto</h2>
 <small>Zona privada STRANGIS - Solo dueño.</small>
-
 <label>Nombre del producto *</label>
 <input id="nombre" placeholder="Ej: Causeta Negra STRANGIS">
-
 <label>Precio *</label>
 <input id="precio" type="number" placeholder="Ej: 35">
-
 <label>👕 TALLAS - Escribe las que quieras, separadas por comas</label>
 <input id="tallas" placeholder="Ej: S,M,L,XL  o  Única  o  40,41,42,43" value="S,M,L,XL">
 <div><span class="chip" onclick="ponerTallas('Única')">Única / Gorra</span><span class="chip" onclick="ponerTallas('S,M,L,XL,XXL')">Ropa S-XXL</span><span class="chip" onclick="ponerTallas('36,37,38,39,40,41,42,43,44,45')">Zapas 36-45</span></div>
-
 <label>🎨 COLORES - Escribe los que quieras, separados por comas</label>
 <input id="colores" placeholder="Ej: Negro, Verde Lima, Blanco" value="Negro">
 <div><span class="chip" onclick="ponerColores('Negro')">Negro</span><span class="chip" onclick="ponerColores('Negro,Blanco')">Negro + Blanco</span><span class="chip" onclick="ponerColores('Negro,Verde Lima,Blanco,Gris')">Varios</span></div>
-
 <label>Stock (unidades)</label>
 <input id="stock" type="number" value="10">
-
 <label>🚚 DÍAS DE ENVÍO - Pon los días que quieras</label>
 <div style="display:flex;gap:8px">
 <input id="dias" type="number" value="30" placeholder="Ej: 30" style="flex:1">
 <select id="diasRapido" style="flex:1"><option value="">O elige rápido...</option><option value="30">🌍 30 días</option><option value="15">✈️ 15 días</option><option value="7">🇪🇸 7 días</option><option value="3">⚡ 3 días</option></select>
 </div>
-
 <label>📸 FOTOS - Puedes elegir VARIAS fotos a la vez</label>
 <input id="foto" type="file" accept="image/*" multiple>
 <div id="previewFotos" class="preview"></div>
 <p class="mini">En el móvil, deja pulsado para elegir varias fotos de la galería. El cliente podrá deslizarlas.</p>
-
 <button id="btnGuardar">💾 GUARDAR PRODUCTO</button>
 <p id="estado"></p>
 <button onclick="show('tienda')" style="background:#333;color:#fff">🔒 Cerrar Admin</button>
 </div>
-
 <div class="card">
 <h2 style="margin:0">📦 Mis productos en stock</h2>
 <p class="mini">Aquí puedes eliminar lo que ya no vendes.</p>
@@ -114,18 +106,32 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <h2 style="margin:0" id="pedidoTitulo">Hacer pedido</h2>
 <p id="pedidoResumen" style="color:#C8FF2E;font-weight:800"></p>
 <p id="pedidoRef" class="ref"></p>
-<label>Tu nombre completo *</label>
+
+<div class="seccion"><b>👤 TUS DATOS</b>
+<label>Nombre y Apellidos *</label>
 <input id="pedNombre" placeholder="Ej: Francisco Moreno Moreno">
-<label>Tu teléfono / WhatsApp *</label>
-<input id="pedTelf" placeholder="Tu teléfono">
-<label>👕 Elige tu TALLA *</label>
+<label>Teléfono / WhatsApp *</label>
+<input id="pedTelf" placeholder="Ej: 674559614">
+</div>
+
+<div class="seccion"><b>👕 LA PRENDA</b>
+<label>Elige tu TALLA *</label>
 <select id="pedTalla"></select>
-<label>🎨 Elige tu COLOR</label>
+<label>Elige tu COLOR</label>
 <select id="pedColor"></select>
-<label>Dirección completa *</label>
-<textarea id="pedDireccion" placeholder="Calle, piso, ciudad, CP"></textarea>
+</div>
+
+<div class="seccion"><b>📦 DIRECCIÓN DE ENVÍO - Rellena todo</b>
+<label>Calle *</label>
+<input id="pedCalle" placeholder="Ej: Calle Valencia 12">
+<div class="fila2"><div><label>Portal / Patio *</label><input id="pedPortal" placeholder="Ej: Portal 2 / Patio 1"></div><div><label>Puerta *</label><input id="pedPuerta" placeholder="Ej: Puerta A"></div></div>
+<div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 3º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia"></div></div>
+<label>Código Postal (C.P.) *</label>
+<input id="pedCP" placeholder="Ej: 46001" inputmode="numeric">
+</div>
+
 <label>Notas (opcional)</label>
-<input id="pedNotas" placeholder="Notas">
+<input id="pedNotas" placeholder="Ej: Dejar en portería">
 <div class="envio" id="pedEnvioInfo"></div>
 <div class="bizum" id="pedBizumInfo"></div>
 <button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
@@ -143,7 +149,6 @@ const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let productoActual = null;
-let todosProductos = [];
 function getRef(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
 function ponerTallas(v){ document.getElementById('tallas').value = v; }
 function ponerColores(v){ document.getElementById('colores').value = v; }
@@ -175,7 +180,6 @@ async function cargar(){
     const res1 = await supabaseClient.from('products').select('*').order('created_at',{ascending:false});
     if(res1.error){ debug.innerText = 'Error productos: '+res1.error.message; return; }
     const prods = res1.data || [];
-    todosProductos = prods;
     const res2 = await supabaseClient.from('product_images').select('*');
     const imgs = res2.data || [];
     const res3 = await supabaseClient.from('product_variants').select('*');
@@ -214,7 +218,6 @@ async function cargar(){
     cargarAdminConDatos(prods, imgs);
   }catch(e){ debug.innerText = 'Error cargar: '+e.message; }
 }
-
 function cargarAdmin(){ cargar(); }
 function cargarAdminConDatos(prods, imgs){
   const box = document.getElementById('listaAdmin'); if(!box) return;
@@ -232,7 +235,6 @@ function cargarAdminConDatos(prods, imgs){
     d.appendChild(b); box.appendChild(d);
   });
 }
-
 async function eliminarProducto(p){
   if(!confirm('¿Seguro que quieres ELIMINAR "'+p.name+'" del stock?\nSe borrará de la tienda para siempre.')) return;
   await supabaseClient.from('product_images').delete().eq('product_id', String(p.id));
@@ -242,7 +244,6 @@ async function eliminarProducto(p){
   alert('✅ Eliminado: '+p.name);
   cargar();
 }
-
 function abrirPedido(p){
   productoActual = p;
   document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name;
@@ -263,12 +264,20 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
   const telf = document.getElementById('pedTelf').value.trim();
   const talla = document.getElementById('pedTalla').value;
   const color = document.getElementById('pedColor').value;
-  const dir = document.getElementById('pedDireccion').value.trim();
+  const calle = document.getElementById('pedCalle').value.trim();
+  const portal = document.getElementById('pedPortal').value.trim();
+  const puerta = document.getElementById('pedPuerta').value.trim();
+  const piso = document.getElementById('pedPiso').value.trim();
+  const ciudad = document.getElementById('pedCiudad').value.trim();
+  const cp = document.getElementById('pedCP').value.trim();
   const notas = document.getElementById('pedNotas').value.trim();
-  if(!nombre || !telf || !dir){ alert('Rellena nombre, teléfono y dirección porfa'); return; }
+  if(!nombre || !telf){ alert('Rellena Nombre y Apellidos y Teléfono'); return; }
+  if(!calle || !ciudad || !cp){ alert('Rellena Calle, Ciudad y C.P.'); return; }
+  if(!portal || !puerta || !piso){ alert('Rellena Portal / Patio, Puerta y Piso, es importante para el repartidor'); return; }
   if(!productoActual){ alert('Elige un producto primero'); return; }
   const dias = productoActual.shipping_days || 30;
   const ref = getRef(productoActual);
+  const direccionCompleta = calle + ', ' + portal + ', ' + puerta + ', ' + piso + ', ' + ciudad + ', ' + cp;
   const texto = '🛍️ *NUEVO PEDIDO STRANGIS*%0A%0A' +
     'Producto: ' + encodeURIComponent(productoActual.name) + '%0A' +
     'REF: ' + ref + '%0A' +
@@ -277,9 +286,17 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
     'Color: ' + encodeURIComponent(color) + '%0A' +
     'Envío: ' + dias + ' días aprox.' + '%0A' +
     'Bizum pagado a: ' + BIZUM_NUMERO + '%0A%0A' +
-    'Nombre: ' + encodeURIComponent(nombre) + '%0A' +
-    'Teléfono: ' + encodeURIComponent(telf) + '%0A' +
-    'Dirección: ' + encodeURIComponent(dir) + '%0A' +
+    '--- DATOS CLIENTE ---%0A' +
+    'Nombre y Apellidos: ' + encodeURIComponent(nombre) + '%0A' +
+    'Teléfono: ' + encodeURIComponent(telf) + '%0A%0A' +
+    '--- DIRECCIÓN ---%0A' +
+    'Calle: ' + encodeURIComponent(calle) + '%0A' +
+    'Portal / Patio: ' + encodeURIComponent(portal) + '%0A' +
+    'Puerta: ' + encodeURIComponent(puerta) + '%0A' +
+    'Piso: ' + encodeURIComponent(piso) + '%0A' +
+    'Ciudad: ' + encodeURIComponent(ciudad) + '%0A' +
+    'C.P.: ' + encodeURIComponent(cp) + '%0A' +
+    'Dirección completa: ' + encodeURIComponent(direccionCompleta) + '%0A%0A' +
     'Notas: ' + encodeURIComponent(notas || 'Sin notas');
   window.open('https://wa.me/' + WHATSAPP_NUMERO + '?text=' + texto, '_blank');
   cerrarPedido();
