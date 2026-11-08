@@ -31,18 +31,31 @@ button:active{transform:scale(.98)}
 input,select,textarea{width:100%;padding:13px 12px;border-radius:10px;border:1px solid #333;background:#1a1a1a;color:#fff;margin-top:8px;font-size:16px}
 label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px}
 .wrap{max-width:900px;margin:auto;padding:12px 12px 24px;position:relative;z-index:2}
-.card{background:#151515;border:1px solid #2a2a2a;border-radius:16px;padding:12px;margin-bottom:14px;position:relative;overflow:hidden}
-.price{color:#C8FF2E;font-weight:900;font-size:22px;margin:6px 0}
-.badge{display:inline-block;background:#C8FF2E;color:#000;font-size:12px;font-weight:800;padding:4px 8px;border-radius:20px}
-.envio{background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0;line-height:1.4}
-.bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:15px;margin:10px 0;line-height:1.3}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .info{background:#151515;border:1px solid #333;border-radius:14px;padding:13px;font-size:13px;line-height:1.6;color:#ccc}
-.carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+/* ===== TARJETA CUADRADA 1:1 = FOTO ===== */
+.card{background:#151515;border:1px solid #2a2a2a;border-radius:18px;position:relative;overflow:hidden;margin-bottom:0;padding:0;aspect-ratio:1/1;display:flex;flex-direction:column}
+.carrusel{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .carrusel::-webkit-scrollbar{display:none}
-.carrusel img{width:100%;flex:0 0 100%;scroll-snap-align:center;aspect-ratio:1/1;object-fit:cover;background:#222}
-.contador{position:absolute;top:22px;right:22px;background:rgba(0,0,0,0.75);color:#fff;font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;z-index:2}
-.hint{font-size:11px;color:#888;text-align:center;margin-top:5px}
+.carrusel img{width:100%;height:100%;flex:0 0 100%;scroll-snap-align:center;object-fit:cover;background:#222}
+.contador{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;z-index:5}
+.badge-top{position:absolute;top:12px;left:12px;background:#C8FF2E;color:#000;font-size:11px;font-weight:900;padding:5px 9px;border-radius:20px;z-index:5;letter-spacing:.5px}
+.pill-envio{position:absolute;top:44px;left:12px;background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);border:1px solid rgba(200,255,46,.6);color:#E6FF9A;font-size:11px;font-weight:800;padding:5px 9px;border-radius:20px;z-index:5}
+.hint{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);color:#fff;font-size:10px;padding:4px 8px;border-radius:20px;z-index:5;white-space:nowrap;pointer-events:none}
+.overlay{position:absolute;left:0;right:0;bottom:0;z-index:4;background:linear-gradient(to top, rgba(0,0,0,.95) 0%, rgba(0,0,0,.85) 45%, rgba(0,0,0,.35) 75%, transparent 100%);padding:28px 12px 12px}
+.overlay h3{margin:0;font-size:17px;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.8);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.fila-precio{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.price{color:#C8FF2E;font-weight:900;font-size:24px;margin:0;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.colorActual{background:#C8FF2E;color:#000;font-weight:900;padding:5px 9px;border-radius:20px;font-size:12px;display:inline-block}
+.tallasBox{margin:9px 0 0}
+.btnTalla{display:inline-block;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);color:#fff;border:1px solid rgba(255,255,255,.5);padding:8px 13px;border-radius:20px;font-size:13px;font-weight:800;margin:5px 5px 0 0;cursor:pointer;width:auto;min-width:44px;min-height:38px}
+.btnTalla.activo{background:#C8FF2E;color:#000;border-color:#C8FF2E}
+.tallaElegidaTxt{color:#C8FF2E}
+.btnComprar{margin-top:10px !important;padding:13px !important;font-size:15px !important;box-shadow:0 6px 20px rgba(200,255,46,.35)}
+.descBox{border:1px solid rgba(255,255,255,.25);border-radius:10px;margin:8px 0 0;overflow:hidden;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.descBox summary{padding:10px 12px;cursor:pointer;font-weight:800;font-size:13px;color:#C8FF2E;list-style:none}
+.descBox summary::-webkit-details-marker{display:none}
+.descBox p{padding:0 12px 12px;margin:0;font-size:13px;line-height:1.6;color:#eee;white-space:pre-line}
 .mini{font-size:12px;color:#aaa;line-height:1.4}
 .btn-del{background:#ff3b30;color:#fff;margin-top:8px}
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);display:none;align-items:flex-end;justify-content:center;padding:0;z-index:99}
@@ -55,18 +68,8 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .fotoItem{display:flex;gap:10px;align-items:center;background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:10px;margin-top:10px}
 .fotoItem img{width:70px;height:70px;object-fit:cover;border-radius:8px;flex-shrink:0}
 .fotoItem input{margin-top:6px}
-.colorActual{background:#C8FF2E;color:#000;font-weight:900;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-top:8px}
 .elegido{background:#1e2a00;border:1px solid #C8FF2E;border-radius:12px;padding:10px;margin-top:10px}
 .elegido img{width:100%;border-radius:10px;aspect-ratio:1/1;object-fit:cover}
-.btnTalla{display:inline-block;background:#222;color:#fff;border:1px solid #444;padding:11px 16px;border-radius:20px;font-size:15px;font-weight:800;margin:6px 6px 0 0;cursor:pointer;width:auto;min-width:52px;min-height:44px}
-.btnTalla.activo{background:#C8FF2E;color:#000;border-color:#C8FF2E}
-.tallasBox{margin:10px 0}.tallasBox b{font-size:12px;color:#C8FF2E}
-.descBox{border:1px solid #333;border-radius:10px;margin:10px 0;overflow:hidden;background:#1a1a1a}
-.descBox summary{padding:12px;cursor:pointer;font-weight:800;font-size:14px;color:#C8FF2E;list-style:none}
-.descBox summary::-webkit-details-marker{display:none}
-.descBox summary::after{content:' ▸';float:right}
-.descBox[open ] summary::after{content:' ▾'}
-.descBox p{padding:0 12px 12px;margin:0;font-size:14px;line-height:1.6;color:#ccc;white-space:pre-line}
 .btn-edit{background:#C8FF2E;color:#000;width:auto;margin-top:0}
 .btn-cancelar{background:#333;color:#fff;display:none}
 .editando{background:#1e2a00 !important;border-color:#C8FF2E !important}
@@ -77,9 +80,11 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .tituloTop{position:relative;z-index:2;text-align:center;padding:0 12px}
 .seo-text{max-width:900px;margin:24px auto 0;padding:0 12px 24px;text-align:center;color:#888;font-size:13px;line-height:1.6}
 .seo-text h2{color:#fff;font-size:16px;margin:0 0 6px}
-@media(max-width:600px){ .grid{grid-template-columns:1fr;gap:12px} .logo{font-size:24px} .banner{font-size:12px} .banner small{font-size:10.5px} .wrap{padding:10px 10px 20px} .card{padding:11px;border-radius:14px} .card h3{font-size:17px;line-height:1.3} .modal{align-items:flex-end} .fila2{flex-direction:row} .headerRight{font-size:11px} }
-@media(max-width:380px){ .logo{font-size:21px} .btnTalla{padding:10px 13px;min-width:46px} .fila2{flex-direction:column} }
-@media(min-width:601px){ .modal{align-items:center;padding:16px} .modalBox{border-radius:18px;padding-bottom:18px} }
+.envio{margin:0}
+.bizum{background:#C8FF2E;color:#000;padding:12px;border-radius:10px;font-weight:900;text-align:center;font-size:15px;margin:10px 0;line-height:1.3}
+@media(max-width:600px){ .grid{grid-template-columns:1fr;gap:14px} .logo{font-size:24px} .banner{font-size:12px} .banner small{font-size:10.5px} .wrap{padding:10px 10px 20px} .modal{align-items:flex-end} .fila2{flex-direction:row} .headerRight{font-size:11px} .card{aspect-ratio:1/1} }
+@media(max-width:380px){ .logo{font-size:21px} .btnTalla{padding:8px 11px;min-width:42px} .fila2{flex-direction:column} .overlay h3{font-size:16px} }
+@media(min-width:601px){ .modal{align-items:center;padding:16px} .modalBox{border-radius:18px;padding-bottom:18px} .card{aspect-ratio:1/1} }
 </style>
 </head>
 <body>
@@ -97,7 +102,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <p id="debug" style="display:none"></p>
 </div>
 <div id="admin" style="display:none">
-<div class="card" id="cardForm">
+<div class="card" style="aspect-ratio:auto;display:block;padding:12px" id="cardForm">
 <h2 style="margin:0" id="tituloForm">+ Nuevo Producto</h2>
 <p id="avisoEditando" style="display:none;background:#C8FF2E;color:#000;padding:8px;border-radius:8px;font-weight:800;font-size:13px;margin:8px 0 0">✏️ ESTÁS EDITANDO: <span id="nombreEditando"></span><br><span style="font-weight:400;font-size:11px">Cambia lo que quieras y dale a GUARDAR CAMBIOS. Las fotos y tallas no se cambian aquí.</span></p>
 <small>Zona privada STRANGIS - Solo dueño.</small>
@@ -116,7 +121,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <p id="estado"></p>
 <button onclick="show('tienda')" style="background:#333;color:#fff">🔒 Cerrar Admin - Volver a Tienda</button>
 </div>
-<div class="card"><h2 style="margin:0">📦 Mis productos en stock</h2><p class="mini">✏️ Editar para cambiar precio / descripción. 🗑️ Eliminar para borrarlo.</p><div id="listaAdmin"></div></div>
+<div class="card" style="aspect-ratio:auto;display:block;padding:12px"><h2 style="margin:0">📦 Mis productos en stock</h2><p class="mini">✏️ Editar para cambiar precio / descripción. 🗑️ Eliminar para borrarlo.</p><div id="listaAdmin"></div></div>
 </div>
 </div>
 <section class="seo-text"><h2>Ropa Streetwear en Valencia - STRANGIS</h2><p>STRANGIS es tu tienda online de ropa streetwear en Valencia. Camisetas oversize, sudaderas y ropa urbana con estilo. Envíos gratuitos a toda España y compra fácil con Bizum.</p></section>
@@ -129,7 +134,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <div class="seccion"><b>📦 DIRECCIÓN DE ENVÍO</b><label>Calle *</label><input id="pedCalle" placeholder="Ej: Calle Azahar 24" autocomplete="street-address"><div class="fila2"><div><label>Portal / Patio *</label><input id="pedPortal" placeholder="Ej: Portal 3"></div><div><label>Puerta *</label><input id="pedPuerta" placeholder="Ej: Puerta B"></div></div><div class="fila2"><div><label>Piso *</label><input id="pedPiso" placeholder="Ej: 2º"></div><div><label>Ciudad *</label><input id="pedCiudad" placeholder="Ej: Valencia" autocomplete="address-level2"></div></div><label>Código Postal (C.P.) *</label><input id="pedCP" placeholder="Ej: 46002" inputmode="numeric" autocomplete="postal-code"></div>
 <label>Notas (opcional)</label><input id="pedNotas" placeholder="Ej: Llamar al llegar">
 <div class="seccion" style="border-color:#C8FF2E"><b>💸 COMPROBAR BIZUM - MUY IMPORTANTE</b><label>¿Desde qué nombre has hecho el Bizum? *</label><input id="pedBizumNombre" placeholder="Ej: Lucía Ferrer o Ana Ferrer (si paga otra persona)"><label style="color:#fff;font-weight:400;font-size:13px;line-height:1.4"><input type="checkbox" id="pedBizumCheck" style="width:auto;margin-right:6px"> ✅ Confirmo que YA he hecho el Bizum de <b id="pedBizumImporte" style="color:#C8FF2E"></b> al 674559614</label><p style="font-size:11px;color:#888;margin:6px 0 0">⚠️ Después de enviar el pedido, mándame en este mismo chat la captura de pantalla del Bizum. Sin captura no se prepara el pedido.</p></div>
-<div class="envio" id="pedEnvioInfo"></div><div class="bizum" id="pedBizumInfo"></div>
+<div class="envio" id="pedEnvioInfo" style="background:#1e2a00;border:1px solid #C8FF2E;color:#E6FF9A;padding:10px;border-radius:10px;font-size:13px;margin:8px 0"></div><div class="bizum" id="pedBizumInfo"></div>
 <button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
 <p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido.<br>3. Mándame la captura del Bizum en el chat.</p>
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
@@ -193,19 +198,23 @@ async function cargar(){
       p._tallas = tallas; p._urls = urls; p._coloresPorFoto = coloresPorFoto; p._indiceFoto = 0; p._tallaElegida = tallas[0];
       const dias = p.shipping_days || 30; const descripcion = p.description || '';
       const div = document.createElement('div'); div.className = 'card';
-      let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
+      let carruselHtml = '<div class="carrusel">';
       urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy" alt="'+esc(p.name)+' STRANGIS">'; });
-      carruselHtml += '</div><div class="hint">👉 Desliza para cambiar de color</div>';
-      let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>';
+      carruselHtml += '</div>';
+      let topHtml = '<div class="badge-top">NUEVO</div><div class="contador">1 / '+urls.length+' 📸</div><div class="pill-envio">🌍 '+dias+' días · Llega '+fechaEstimada(dias)+'</div><div class="hint">👉 Desliza para color</div>';
+      let tallasHtml = '';
       tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; });
-      tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>';
-      let descHtml = ''; if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p>'+esc(descripcion)+'</p></details>'; }
-      div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+esc(p.name)+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + descHtml + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      let descHtml = '';
+      if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p>'+esc(descripcion)+'</p></details>'; }
+      let overlayHtml = '<div class="overlay"><h3>'+esc(p.name)+'</h3><div class="fila-precio"><p class="price">'+p.price+' €</p><span class="colorActual">🎨 <span class="colorTxt">'+coloresPorFoto[0]+'</span></span></div><div class="tallasBox">'+tallasHtml+' <span style="font-size:12px;color:#ddd">· Talla: <b class="tallaElegidaTxt">'+tallas[0]+'</b></span></div>'+descHtml+'</div>';
+      div.innerHTML = carruselHtml + topHtml + overlayHtml;
       const car = div.querySelector('.carrusel'); const cont = div.querySelector('.contador'); const colorTxt = div.querySelector('.colorTxt');
       car.addEventListener('scroll', function(){ const idx = Math.round(car.scrollLeft / car.clientWidth); const safeIdx = Math.max(0, Math.min(idx, urls.length-1)); p._indiceFoto = safeIdx; cont.innerText = (safeIdx+1)+' / '+urls.length+' 📸'; colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única'; });
       const btnsTalla = div.querySelectorAll('.btnTalla'); const tallaTxt = div.querySelector('.tallaElegidaTxt');
       btnsTalla.forEach(function(b){ b.addEventListener('click', function(){ btnsTalla.forEach(function(x){ x.classList.remove('activo'); }); b.classList.add('activo'); p._tallaElegida = b.getAttribute('data-talla'); tallaTxt.innerText = p._tallaElegida; }); });
-      const btn = document.createElement('button'); btn.innerText = '🛒 COMPRAR CON BIZUM'; btn.onclick = function(){ abrirPedido(p); }; div.appendChild(btn); lista.appendChild(div);
+      const btn = document.createElement('button'); btn.className='btnComprar'; btn.innerText = '🛒 COMPRAR CON BIZUM'; btn.onclick = function(){ abrirPedido(p); };
+      div.querySelector('.overlay').appendChild(btn);
+      lista.appendChild(div);
     });
     cargarAdminConDatos(prods, imgs, vars);
   }catch(e){ console.error(e); document.getElementById('debug').style.display='block'; document.getElementById('debug').innerText='Error cargando: '+e.message; }
