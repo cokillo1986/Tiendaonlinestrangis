@@ -50,6 +50,15 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .btnTalla.activo{background:#C8FF2E;color:#000;border-color:#C8FF2E}
 .tallasBox{margin:10px 0}
 .tallasBox b{font-size:12px;color:#C8FF2E}
+.descBox{border:1px solid #333;border-radius:10px;margin:10px 0;overflow:hidden;background:#1a1a1a}
+.descBox summary{padding:10px 12px;cursor:pointer;font-weight:800;font-size:13px;color:#C8FF2E;list-style:none}
+.descBox summary::-webkit-details-marker{display:none}
+.descBox summary::after{content:' ▸';float:right}
+.descBox[open ] summary::after{content:' ▾'}
+.descBox p{padding:0 12px 12px;margin:0;font-size:13px;line-height:1.6;color:#ccc;white-space:pre-line}
+.btn-edit{background:#C8FF2E;color:#000;width:auto;margin-top:0}
+.btn-cancelar{background:#333;color:#fff;display:none}
+.editando{background:#1e2a00 !important;border-color:#C8FF2E !important}
 </style>
 </head>
 <body>
@@ -71,13 +80,17 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </div>
 
 <div id="admin" style="display:none">
-<div class="card">
-<h2 style="margin:0">+ Nuevo Producto</h2>
+<div class="card" id="cardForm">
+<h2 style="margin:0" id="tituloForm">+ Nuevo Producto</h2>
+<p id="avisoEditando" style="display:none;background:#C8FF2E;color:#000;padding:8px;border-radius:8px;font-weight:800;font-size:13px;margin:8px 0 0">✏️ ESTÁS EDITANDO: <span id="nombreEditando"></span><br><span style="font-weight:400;font-size:11px">Cambia lo que quieras y dale a GUARDAR CAMBIOS. Las fotos y tallas no se cambian aquí.</span></p>
 <small>Zona privada STRANGIS - Solo dueño.</small>
 <label>Nombre del producto *</label>
 <input id="nombre" placeholder="Ej: Camiseta Oversize STRANGIS">
 <label>Precio *</label>
 <input id="precio" type="number" placeholder="Ej: 35">
+<label>📝 DESCRIPCIÓN DEL PRODUCTO</label>
+<textarea id="descripcion" rows="4" placeholder="Ej: Camiseta oversize de algodón grueso, corte ancho, cuello redondo.&#10;Ideal para el día a día.&#10;Tela suave, no transparenta."></textarea>
+<p class="mini">Esto es lo que verá el cliente cuando pulse "Ver descripción". Si lo dejas vacío, no sale nada.</p>
 <label>👕 TALLAS - Para todas las fotos / colores</label>
 <input id="tallas" placeholder="Ej: S,M,L,XL  o  Única" value="S,M,L,XL">
 <div><span class="chip" onclick="ponerTallas('Única')">Única / Gorra</span><span class="chip" onclick="ponerTallas('S,M,L,XL,XXL')">Ropa S-XXL</span><span class="chip" onclick="ponerTallas('36,37,38,39,40,41,42,43,44,45')">Zapas 36-45</span></div>
@@ -88,17 +101,20 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <input id="dias" type="number" value="30" style="flex:1">
 <select id="diasRapido" style="flex:1"><option value="">O elige rápido...</option><option value="30">🌍 30 días</option><option value="15">✈️ 15 días</option><option value="7">🇪🇸 7 días</option><option value="3">⚡ 3 días</option></select>
 </div>
+<div id="zonaFotos">
 <label>📸 FOTOS - Cada foto = 1 color</label>
 <input id="foto" type="file" accept="image/*" multiple>
 <p class="mini">Elige las fotos y abajo pon el color de cada una.<br>Ej: Foto 1 = Blanca, Foto 2 = Negra</p>
 <div id="listaFotosAdmin"></div>
+</div>
 <button id="btnGuardar">💾 GUARDAR PRODUCTO</button>
+<button id="btnCancelarEditar" class="btn-cancelar" onclick="cancelarEditar()">❌ Cancelar edición y crear uno nuevo</button>
 <p id="estado"></p>
 <button onclick="show('tienda')" style="background:#333;color:#fff">🔒 Cerrar Admin</button>
 </div>
 <div class="card">
 <h2 style="margin:0">📦 Mis productos en stock</h2>
-<p class="mini">Aquí puedes eliminar lo que ya no vendes.</p>
+<p class="mini">✏️ Editar para cambiar precio / descripción. 🗑️ Eliminar para borrarlo.</p>
 <div id="listaAdmin"></div>
 </div>
 </div>
@@ -111,9 +127,9 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <p style="margin:0 0 6px;font-size:12px;color:#C8FF2E;font-weight:900">✅ HAS ELEGIDO ESTA PRENDA:</p>
 <img id="pedidoFoto">
 <p id="pedidoResumen" style="color:#fff;font-weight:900;margin:8px 0 2px"></p>
-<p id="pedidoRef" class="ref" style="margin:0"></p>
 <p id="pedidoColorElegido" style="font-weight:900;color:#C8FF2E;margin:4px 0 0"></p>
 <p id="pedidoTallaElegida" style="font-weight:900;color:#fff;margin:4px 0 0"></p>
+<p id="pedidoDescripcion" style="font-size:12px;color:#ccc;line-height:1.5;margin:8px 0 0;white-space:pre-line"></p>
 <p style="font-size:11px;color:#888;margin:4px 0 0">Si no es esta, cierra y cambia foto / talla en la tienda.</p>
 </div>
 
@@ -163,10 +179,12 @@ const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let productoActual = null;
 let fotosPendientes = [];
+let editandoId = null;
 function getRefBase(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
 function getRefColor(p, color){ const c = (color||'Única').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,10); return getRefBase(p)+'-'+c; }
 function ponerTallas(v){ document.getElementById('tallas').value = v; }
 document.getElementById('diasRapido').addEventListener('change', function(){ if(this.value) document.getElementById('dias').value = this.value; });
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 document.getElementById('foto').addEventListener('change', function(){
   fotosPendientes = [];
@@ -197,6 +215,44 @@ document.getElementById('btnAdmin').addEventListener('click', function(){
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
 function parseLista(txt){ return txt.split(',').map(function(s){return s.trim();}).filter(function(s){return s!=='';}); }
 
+// --- EDITAR ---
+function editarProducto(p, vars){
+  editandoId = p.id;
+  document.getElementById('tituloForm').innerText = '✏️ Editar Producto';
+  document.getElementById('avisoEditando').style.display = 'block';
+  document.getElementById('nombreEditando').innerText = p.name;
+  document.getElementById('cardForm').classList.add('editando');
+  document.getElementById('nombre').value = p.name || '';
+  document.getElementById('precio').value = p.price || '';
+  document.getElementById('descripcion').value = p.description || '';
+  document.getElementById('dias').value = p.shipping_days || 30;
+  document.getElementById('diasRapido').value = '';
+  // Tallas actuales para que las veas (aunque no se cambian en editar)
+  let tallas = [];
+  if(vars){ tallas = [...new Set(vars.filter(function(v){ return String(v.product_id)===String(p.id); }).map(function(v){ return v.size; }).filter(Boolean))]; }
+  document.getElementById('tallas').value = tallas.length ? tallas.join(',') : 'S,M,L,XL';
+  document.getElementById('btnGuardar').innerText = '💾 GUARDAR CAMBIOS';
+  document.getElementById('btnCancelarEditar').style.display = 'block';
+  document.getElementById('zonaFotos').style.display = 'none';
+  document.getElementById('estado').innerText = '';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function cancelarEditar(){
+  editandoId = null;
+  document.getElementById('tituloForm').innerText = '+ Nuevo Producto';
+  document.getElementById('avisoEditando').style.display = 'none';
+  document.getElementById('cardForm').classList.remove('editando');
+  document.getElementById('nombre').value = '';
+  document.getElementById('precio').value = '';
+  document.getElementById('descripcion').value = '';
+  document.getElementById('tallas').value = 'S,M,L,XL';
+  document.getElementById('dias').value = '30';
+  document.getElementById('btnGuardar').innerText = '💾 GUARDAR PRODUCTO';
+  document.getElementById('btnCancelarEditar').style.display = 'none';
+  document.getElementById('zonaFotos').style.display = 'block';
+  document.getElementById('estado').innerText = '';
+}
+
 async function cargar(){
   const debug = document.getElementById('debug');
   try{
@@ -208,8 +264,7 @@ async function cargar(){
     const res3 = await supabaseClient.from('product_variants').select('*').order('created_at',{ascending:true});
     const vars = res3.data || [];
     const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(prods.length===0){ document.getElementById('vacio').style.display='block'; return; }
-    document.getElementById('vacio').style.display='none';
+    if(prods.length===0){ document.getElementById('vacio').style.display='block'; } else { document.getElementById('vacio').style.display='none'; }
     debug.innerText = 'Hay '+prods.length+' productos. Fotos: '+imgs.length;
     prods.forEach(function(p){
       const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); });
@@ -226,6 +281,7 @@ async function cargar(){
       if(tallas.length===0) tallas = ['Única'];
       p._tallas = tallas; p._urls = urls; p._coloresPorFoto = coloresPorFoto; p._indiceFoto = 0; p._tallaElegida = tallas[0];
       const dias = p.shipping_days || 30;
+      const descripcion = p.description || '';
       const div = document.createElement('div');
       div.className = 'card';
       let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
@@ -234,18 +290,18 @@ async function cargar(){
       let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>';
       tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; });
       tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>';
-      div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+p.name+'</h3><p class="ref">REF: <span class="refTxt">'+getRefColor(p, coloresPorFoto[0])+'</span></p><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
+      let descHtml = '';
+      if(descripcion){ descHtml = '<details class="descBox"><summary>📝 Ver descripción</summary><p>'+esc(descripcion)+'</p></details>'; }
+      div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+esc(p.name)+'</h3><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + descHtml + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
       const car = div.querySelector('.carrusel');
       const cont = div.querySelector('.contador');
       const colorTxt = div.querySelector('.colorTxt');
-      const refTxt = div.querySelector('.refTxt');
       car.addEventListener('scroll', function(){
         const idx = Math.round(car.scrollLeft / car.clientWidth);
         const safeIdx = Math.max(0, Math.min(idx, urls.length-1));
         p._indiceFoto = safeIdx;
         cont.innerText = (safeIdx+1)+' / '+urls.length+' 📸';
         colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única';
-        refTxt.innerText = getRefColor(p, coloresPorFoto[safeIdx]);
       });
       const btnsTalla = div.querySelectorAll('.btnTalla');
       const tallaTxt = div.querySelector('.tallaElegidaTxt');
@@ -263,11 +319,11 @@ async function cargar(){
       div.appendChild(btn);
       lista.appendChild(div);
     });
-    cargarAdminConDatos(prods, imgs);
+    cargarAdminConDatos(prods, imgs, vars);
   }catch(e){ debug.innerText = 'Error cargar: '+e.message; }
 }
 function cargarAdmin(){ cargar(); }
-function cargarAdminConDatos(prods, imgs){
+function cargarAdminConDatos(prods, imgs, vars){
   const box = document.getElementById('listaAdmin'); if(!box) return;
   box.innerHTML='';
   if(prods.length===0){ box.innerHTML='<p class="mini">No hay productos.</p>'; return; }
@@ -275,12 +331,15 @@ function cargarAdminConDatos(prods, imgs){
     const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); });
     const img = misImgs.length>0 ? misImgs[0].image_url : 'https://placehold.co/200x200/111111/C8FF2E?text=STRANGIS';
     const d = document.createElement('div');
-    d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px';
-    d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1"><b>'+p.name+'</b><br><span class="mini">REF: '+getRefBase(p)+' | '+p.price+' € | '+misImgs.length+' fotos / colores</span></div>';
+    d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px;flex-wrap:wrap';
+    d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1;min-width:140px"><b>'+esc(p.name)+'</b><br><span class="mini">'+p.price+' € | '+misImgs.length+' fotos / colores'+(p.description ? ' | 📝 Tiene descripción' : ' | Sin descripción')+'</span></div>';
+    const be = document.createElement('button');
+    be.innerText='✏️ Editar'; be.className='btn-edit'; be.style.width='auto';
+    be.onclick = function(){ editarProducto(p, vars); };
     const b = document.createElement('button');
     b.innerText='🗑️ Eliminar'; b.className='btn-del'; b.style.width='auto'; b.style.marginTop='0';
     b.onclick = function(){ eliminarProducto(p); };
-    d.appendChild(b); box.appendChild(d);
+    d.appendChild(be); d.appendChild(b); box.appendChild(d);
   });
 }
 async function eliminarProducto(p){
@@ -302,9 +361,9 @@ function abrirPedido(p){
   p._colorElegido = colorElegido; p._refElegida = refElegida; p._fotoElegida = fotoElegida; p._tallaFinal = tallaElegida;
   document.getElementById('pedidoTitulo').innerText = 'Pedido: ' + p.name;
   document.getElementById('pedidoResumen').innerText = p.name + ' - ' + p.price + ' €';
-  document.getElementById('pedidoRef').innerText = 'REF: ' + refElegida;
   document.getElementById('pedidoColorElegido').innerText = '🎨 Color: ' + colorElegido + ' (foto '+(idx+1)+')';
   document.getElementById('pedidoTallaElegida').innerText = '👕 Talla: ' + tallaElegida;
+  document.getElementById('pedidoDescripcion').innerText = p.description ? p.description : '';
   document.getElementById('pedidoFoto').src = fotoElegida;
   document.getElementById('pedBizumImporte').innerText = p.price + ' €';
   document.getElementById('pedBizumCheck').checked = false;
@@ -369,17 +428,35 @@ document.getElementById('btnGuardar').addEventListener('click', subir);
 async function subir(){
   const nombre=document.getElementById('nombre').value.trim();
   const precio=document.getElementById('precio').value;
+  const descripcion=document.getElementById('descripcion').value.trim();
   const tallasTxt=document.getElementById('tallas').value;
   const stock=document.getElementById('stock').value;
   const dias=document.getElementById('dias').value;
   const estado=document.getElementById('estado');
   if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
+
+  // --- SI ESTÁS EDITANDO: solo actualizar, no crear nuevo ---
+  if(editandoId){
+    estado.innerText='⏳ Guardando cambios...';
+    const upd = await supabaseClient.from('products').update({name:nombre, price:precio, description:descripcion, shipping_days:parseInt(dias)||30}).eq('id', editandoId);
+    if(upd.error){ estado.innerText='Error al editar: '+upd.error.message; return; }
+    estado.innerText='✅ ¡Cambios guardados!';
+    cancelarEditar();
+    cargar(); show('tienda');
+    return;
+  }
+
+  // --- SI ES NUEVO: lo de siempre ---
   if(!fotosPendientes || fotosPendientes.length===0){ alert('Elige al menos 1 foto'); return; }
   const tallas = parseLista(tallasTxt); if(tallas.length===0) tallas.push('Única');
   for(let i=0;i<fotosPendientes.length;i++){ if(!fotosPendientes[i].color || !fotosPendientes[i].color.trim()){ alert('Pon el color de la Foto '+(i+1)); return; } }
   estado.innerText='⏳ Subiendo '+fotosPendientes.length+' fotos / colores...';
   const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-  const r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}).select().single();
+  let r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30,description:descripcion}).select().single();
+  if(r.error && r.error.message && r.error.message.toLowerCase().includes('description')){
+    r = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}).select().single();
+    alert('⚠️ Tu tabla en Supabase aún no tiene columna description. El producto se guardó sin descripción. Añádela en Supabase > Table Editor > products > Add Column: description tipo text, y luego vuelve a guardar.');
+  }
   if(r.error){ estado.innerText='Error: '+r.error.message; return; }
   const prod = r.data;
   for(let i=0;i<fotosPendientes.length;i++){
@@ -396,7 +473,7 @@ async function subir(){
     }
   }
   estado.innerText='✅ ¡LISTO! '+fotosPendientes.length+' colores: '+fotosPendientes.map(function(f){return f.color;}).join(', ');
-  document.getElementById('nombre').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[];
+  document.getElementById('nombre').value=''; document.getElementById('descripcion').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[];
   cargar(); show('tienda');
 }
 </script>
