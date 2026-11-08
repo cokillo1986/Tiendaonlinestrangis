@@ -46,11 +46,10 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .colorActual{background:#C8FF2E;color:#000;font-weight:900;padding:6px 10px;border-radius:20px;font-size:12px;display:inline-block;margin-top:6px}
 .elegido{background:#1e2a00;border:1px solid #C8FF2E;border-radius:12px;padding:10px;margin-top:10px}
 .elegido img{width:100%;border-radius:10px;aspect-ratio:1/1;object-fit:cover}
-/* TALLAS EN LA WEB */
-.tallasBox{margin:10px 0}
-.tallasBox b{font-size:12px;color:#C8FF2E}
 .btnTalla{display:inline-block;background:#222;color:#fff;border:1px solid #444;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:800;margin:6px 6px 0 0;cursor:pointer;width:auto}
 .btnTalla.activo{background:#C8FF2E;color:#000;border-color:#C8FF2E}
+.tallasBox{margin:10px 0}
+.tallasBox b{font-size:12px;color:#C8FF2E}
 </style>
 </head>
 <body>
@@ -105,7 +104,6 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 </div>
 </div>
 
-<!-- MODAL PEDIDO - YA NO PIDE TALLA NI COLOR, YA ESTÁ ELEGIDO -->
 <div id="modalPedido" class="modal">
 <div class="modalBox">
 <h2 style="margin:0" id="pedidoTitulo">Hacer pedido</h2>
@@ -137,10 +135,20 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 
 <label>Notas (opcional)</label>
 <input id="pedNotas" placeholder="Ej: Dejar en portería">
+
+<div class="seccion" style="border-color:#C8FF2E"><b>💸 COMPROBAR BIZUM - MUY IMPORTANTE</b>
+<label>¿Desde qué nombre has hecho el Bizum? *</label>
+<input id="pedBizumNombre" placeholder="Ej: Francisco Moreno o María García (si paga otra persona)">
+<label style="color:#fff;font-weight:400;font-size:13px;line-height:1.4">
+<input type="checkbox" id="pedBizumCheck" style="width:auto;margin-right:6px"> ✅ Confirmo que YA he hecho el Bizum de <b id="pedBizumImporte" style="color:#C8FF2E"></b> al 674559614
+</label>
+<p style="font-size:11px;color:#888;margin:6px 0 0">⚠️ Después de enviar el pedido, mándame en este mismo chat la captura de pantalla del Bizum. Sin captura no se prepara el pedido.</p>
+</div>
+
 <div class="envio" id="pedEnvioInfo"></div>
 <div class="bizum" id="pedBizumInfo"></div>
 <button id="btnEnviarPedido">✅ ENVIAR PEDIDO POR WHATSAPP</button>
-<p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido.</p>
+<p style="font-size:12px;color:#999;text-align:center">1. Haz Bizum al número de arriba.<br>2. Dale a enviar pedido.<br>3. Mándame la captura del Bizum en el chat.</p>
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
 </div>
 </div>
@@ -223,11 +231,8 @@ async function cargar(){
       let carruselHtml = '<div class="contador">1 / '+urls.length+' 📸</div><div class="carrusel">';
       urls.forEach(function(u){ carruselHtml += '<img src="'+u+'" loading="lazy">'; });
       carruselHtml += '</div><div class="hint">👉 Desliza para cambiar de color</div>';
-      // Tallas como botones en la tarjeta
       let tallasHtml = '<div class="tallasBox"><b>👕 ELIGE TU TALLA:</b><br>';
-      tallas.forEach(function(t, ti){
-        tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>';
-      });
+      tallas.forEach(function(t, ti){ tallasHtml += '<button class="btnTalla '+(ti===0?'activo':'')+'" data-talla="'+t+'">'+t+'</button>'; });
       tallasHtml += '</div><p class="mini">Talla elegida: <b style="color:#C8FF2E" class="tallaElegidaTxt">'+tallas[0]+'</b></p>';
       div.innerHTML = carruselHtml + '<div class="colorActual">🎨 Color: <span class="colorTxt">'+coloresPorFoto[0]+'</span></div><h3 style="margin:10px 0 4px">'+p.name+'</h3><p class="ref">REF: <span class="refTxt">'+getRefColor(p, coloresPorFoto[0])+'</span></p><span class="badge">NUEVO</span><p class="price">'+p.price+' €</p>' + tallasHtml + '<div class="envio">🌍 <b>Envío: '+dias+' días aprox.</b><br>Llega alrededor del '+fechaEstimada(dias)+'</div>';
       const car = div.querySelector('.carrusel');
@@ -242,7 +247,6 @@ async function cargar(){
         colorTxt.innerText = coloresPorFoto[safeIdx] || 'Única';
         refTxt.innerText = getRefColor(p, coloresPorFoto[safeIdx]);
       });
-      // Click en talla
       const btnsTalla = div.querySelectorAll('.btnTalla');
       const tallaTxt = div.querySelector('.tallaElegidaTxt');
       btnsTalla.forEach(function(b){
@@ -302,6 +306,10 @@ function abrirPedido(p){
   document.getElementById('pedidoColorElegido').innerText = '🎨 Color: ' + colorElegido + ' (foto '+(idx+1)+')';
   document.getElementById('pedidoTallaElegida').innerText = '👕 Talla: ' + tallaElegida;
   document.getElementById('pedidoFoto').src = fotoElegida;
+  // NUEVO - Bizum
+  document.getElementById('pedBizumImporte').innerText = p.price + ' €';
+  document.getElementById('pedBizumCheck').checked = false;
+  document.getElementById('pedBizumNombre').value = '';
   const dias = p.shipping_days || 30;
   document.getElementById('pedEnvioInfo').innerHTML = '🌍 Envío: ' + dias + ' días aprox.<br>Llega alrededor del ' + fechaEstimada(dias);
   document.getElementById('pedBizumInfo').innerHTML = '💸 PAGA POR BIZUM AL:<br>' + BIZUM_NUMERO + '<br><small>' + BIZUM_NOMBRE + ' - ' + p.price + ' €</small>';
@@ -318,9 +326,13 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
   const ciudad = document.getElementById('pedCiudad').value.trim();
   const cp = document.getElementById('pedCP').value.trim();
   const notas = document.getElementById('pedNotas').value.trim();
+  const bizumNombre = document.getElementById('pedBizumNombre').value.trim();
+  const bizumCheck = document.getElementById('pedBizumCheck').checked;
   if(!nombre || !telf){ alert('Rellena Nombre y Apellidos y Teléfono'); return; }
   if(!calle || !ciudad || !cp){ alert('Rellena Calle, Ciudad y C.P.'); return; }
   if(!portal || !puerta || !piso){ alert('Rellena Portal / Patio, Puerta y Piso'); return; }
+  if(!bizumNombre){ alert('Pon desde qué nombre has hecho el Bizum, para que lo encuentre en el banco'); return; }
+  if(!bizumCheck){ alert('Tienes que marcar que YA has hecho el Bizum'); return; }
   if(!productoActual){ alert('Elige un producto primero'); return; }
   const dias = productoActual.shipping_days || 30;
   const ref = productoActual._refElegida;
@@ -336,7 +348,10 @@ document.getElementById('btnEnviarPedido').addEventListener('click', function(){
     'Precio: ' + encodeURIComponent(productoActual.price + ' €') + '%0A' +
     'Envío: ' + dias + ' días aprox.' + '%0A' +
     '📸 Foto elegida: ' + encodeURIComponent(foto) + '%0A' +
-    'Bizum pagado a: ' + BIZUM_NUMERO + '%0A%0A' +
+    'Bizum pagado a: ' + BIZUM_NUMERO + '%0A' +
+    '⚠️ ESTADO: PENDIENTE DE COMPROBAR BIZUM%0A' +
+    'Nombre del Bizum: ' + encodeURIComponent(bizumNombre) + '%0A' +
+    'Importe que dice haber pagado: ' + encodeURIComponent(productoActual.price + ' €') + '%0A%0A' +
     'Nombre y Apellidos: ' + encodeURIComponent(nombre) + '%0A' +
     'Teléfono: ' + encodeURIComponent(telf) + '%0A' +
     'Calle: ' + encodeURIComponent(calle) + '%0A' +
