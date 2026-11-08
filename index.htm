@@ -77,7 +77,6 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 .tituloTop{position:relative;z-index:2;text-align:center;padding:0 12px}
 .seo-text{max-width:900px;margin:24px auto 0;padding:0 12px 24px;text-align:center;color:#888;font-size:13px;line-height:1.6}
 .seo-text h2{color:#fff;font-size:16px;margin:0 0 6px}
-#debugBox{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:10px;font-size:11px;color:#aaa;margin-top:12px;word-break:break-word}
 @media(max-width:600px){ .grid{grid-template-columns:1fr;gap:12px} .logo{font-size:24px} .banner{font-size:12px} .banner small{font-size:10.5px} .wrap{padding:10px 10px 20px} .card{padding:11px;border-radius:14px} .card h3{font-size:17px;line-height:1.3} .modal{align-items:flex-end} .fila2{flex-direction:row} .headerRight{font-size:11px} }
 @media(max-width:380px){ .logo{font-size:21px} .btnTalla{padding:10px 13px;min-width:46px} .fila2{flex-direction:column} }
 @media(min-width:601px){ .modal{align-items:center;padding:16px} .modalBox{border-radius:18px;padding-bottom:18px} }
@@ -95,7 +94,7 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <div class="info">ℹ️ <b style="color:#fff">¿Cómo pedir?</b><br>1. <b style="color:#C8FF2E">Desliza la foto</b> hasta el color que quieres<br>2. <b style="color:#C8FF2E">Pulsa tu talla</b> (se pone en verde)<br>3. Pulsa COMPRAR CON BIZUM y solo pones tus datos.</div>
 <div id="lista" class="grid" style="margin-top:14px"></div>
 <p id="vacio" style="text-align:center;color:#999;display:none">Aún no hay productos.</p>
-<div id="debugBox">⏳ Cargando productos...<br><span id="debug"></span><br><button id="btnReintentar" style="margin-top:8px;padding:8px">🔄 Reintentar carga</button></div>
+<p id="debug" style="display:none"></p>
 </div>
 <div id="admin" style="display:none">
 <div class="card" id="cardForm">
@@ -136,7 +135,6 @@ label{font-size:12px;color:#C8FF2E;font-weight:800;display:block;margin-top:12px
 <button class="cerrar" onclick="cerrarPedido()">Cancelar</button>
 </div></div>
 <script>
-// ===== GOTITAS =====
 try{
 const canvasGotas = document.getElementById('gotas');
 const ctxGotas = canvasGotas.getContext('2d');
@@ -148,46 +146,18 @@ for(let i=0;i<45;i++){ gotas.push(crearGota(true)); }
 function dibujarGotas(){ ctxGotas.clearRect(0,0,W,H); gotas.forEach(function(g, idx){ if(!g.detenida){ g.y += g.vel; g.balanceo += g.velBalanceo; g.x += Math.sin(g.balanceo)*0.3; if(g.y >= H - 5){ g.detenida = true; g.parada = 0; } } else { g.parada++; if(g.parada > 120){ gotas[idx] = crearGota(false); } } ctxGotas.beginPath(); ctxGotas.arc(g.x, g.y, g.r, 0, Math.PI*2); ctxGotas.fillStyle = 'rgba(200,255,46,'+g.opacidad+')'; ctxGotas.fill(); }); requestAnimationFrame(dibujarGotas); }
 dibujarGotas();
 }catch(e){ console.log('gotas off', e); }
-
 const ADMIN_PASS = "Strangis2027Vlc";
 const WHATSAPP_NUMERO = "34674559614";
 const BIZUM_NUMERO = "674559614";
 const BIZUM_NOMBRE = "STRANGIS";
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
-
-// ===== SUPABASE SIN SDK - fetch directo, no depende de CDN =====
-function sbHeaders(extra){
-  const h = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
-  if(extra) for(let k in extra) h[k]=extra[k];
-  return h;
-}
-async function sbGet(table, query){
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { headers: sbHeaders() });
-  if(!res.ok){ const t = await res.text(); throw new Error(table + ' ' + res.status + ' ' + t.slice(0,200)); }
-  return await res.json();
-}
-async function sbInsert(table, body){
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table, { method:'POST', headers: sbHeaders(), body: JSON.stringify(body) });
-  if(!res.ok){ const t = await res.text(); throw new Error(table + ' insert ' + res.status + ' ' + t.slice(0,300)); }
-  const j = await res.json(); return Array.isArray(j) ? j[0] : j;
-}
-async function sbUpdate(table, query, body){
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'PATCH', headers: sbHeaders(), body: JSON.stringify(body) });
-  if(!res.ok){ const t = await res.text(); throw new Error(table + ' update ' + res.status + ' ' + t.slice(0,300)); }
-  return await res.json();
-}
-async function sbDelete(table, query){
-  const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'DELETE', headers: sbHeaders() });
-  if(!res.ok){ const t = await res.text(); throw new Error(table + ' delete ' + res.status + ' ' + t.slice(0,300)); }
-  return true;
-}
-async function sbUpload(fileName, file){
-  const res = await fetch(SUPABASE_URL + '/storage/v1/object/product-images/' + fileName, { method:'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': file.type || 'image/jpeg', 'x-upsert': 'true' }, body: file });
-  if(!res.ok){ const t = await res.text(); throw new Error('storage ' + res.status + ' ' + t.slice(0,300)); }
-  return SUPABASE_URL + '/storage/v1/object/public/product-images/' + fileName;
-}
-
+function sbHeaders(extra){ const h = { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }; if(extra) for(let k in extra) h[k]=extra[k]; return h; }
+async function sbGet(table, query){ const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { headers: sbHeaders() }); if(!res.ok){ const t = await res.text(); throw new Error(table + ' ' + res.status + ' ' + t.slice(0,200)); } return await res.json(); }
+async function sbInsert(table, body){ const res = await fetch(SUPABASE_URL + '/rest/v1/' + table, { method:'POST', headers: sbHeaders(), body: JSON.stringify(body) }); if(!res.ok){ const t = await res.text(); throw new Error(table + ' insert ' + res.status + ' ' + t.slice(0,300)); } const j = await res.json(); return Array.isArray(j) ? j[0] : j; }
+async function sbUpdate(table, query, body){ const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'PATCH', headers: sbHeaders(), body: JSON.stringify(body) }); if(!res.ok){ const t = await res.text(); throw new Error(table + ' update ' + res.status + ' ' + t.slice(0,300)); } return await res.json(); }
+async function sbDelete(table, query){ const res = await fetch(SUPABASE_URL + '/rest/v1/' + table + '?' + query, { method:'DELETE', headers: sbHeaders() }); if(!res.ok){ const t = await res.text(); throw new Error(table + ' delete ' + res.status + ' ' + t.slice(0,300)); } return true; }
+async function sbUpload(fileName, file){ const res = await fetch(SUPABASE_URL + '/storage/v1/object/product-images/' + fileName, { method:'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': file.type || 'image/jpeg', 'x-upsert': 'true' }, body: file }); if(!res.ok){ const t = await res.text(); throw new Error('storage ' + res.status + ' ' + t.slice(0,300)); } return SUPABASE_URL + '/storage/v1/object/public/product-images/' + fileName; }
 let productoActual = null; let fotosPendientes = []; let editandoId = null;
 function getRefBase(p){ return 'STR-' + String(p.id).slice(0,8).toUpperCase(); }
 function getRefColor(p, color){ const c = (color||'Única').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,10); return getRefBase(p)+'-'+c; }
@@ -196,30 +166,18 @@ function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;')
 function show(v){ document.getElementById('tienda').style.display = v==='tienda'?'block':'none'; document.getElementById('admin').style.display = v==='admin'?'block':'none'; }
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
 function parseLista(txt){ return txt.split(',').map(function(s){return s.trim();}).filter(function(s){return s!=='';}); }
-
-// ADMIN - se engancha lo primero, aunque falle la carga
-document.getElementById('btnAdmin').addEventListener('click', function(){
-  const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
-  if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); }
-});
-document.getElementById('btnReintentar').addEventListener('click', function(){ cargar(); });
+document.getElementById('btnAdmin').addEventListener('click', function(){ const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:'); if(pass === ADMIN_PASS){ show('admin'); cargarAdmin(); } else if(pass !== null){ alert('❌ Contraseña incorrecta.'); } });
 document.getElementById('diasRapido').addEventListener('change', function(){ if(this.value) document.getElementById('dias').value = this.value; });
 document.getElementById('foto').addEventListener('change', function(){ fotosPendientes = []; const box = document.getElementById('listaFotosAdmin'); box.innerHTML=''; Array.from(this.files).forEach(function(f, idx){ const url = URL.createObjectURL(f); const colorSugerido = idx===0 ? 'Blanca' : idx===1 ? 'Negra' : ''; const item = {file:f, color:colorSugerido, url:url}; fotosPendientes.push(item); const d = document.createElement('div'); d.className='fotoItem'; d.innerHTML = '<img src="'+url+'"><div style="flex:1"><b>Foto '+(idx+1)+'</b><br><span class="mini">¿De qué color es esta foto?</span><input placeholder="Ej: Blanca, Negra, Verde..." value="'+colorSugerido+'"></div>'; const inp = d.querySelector('input'); inp.addEventListener('input', function(){ item.color = this.value; }); box.appendChild(d); }); });
-
 function editarProducto(p, vars){ editandoId = p.id; document.getElementById('tituloForm').innerText = '✏️ Editar Producto'; document.getElementById('avisoEditando').style.display = 'block'; document.getElementById('nombreEditando').innerText = p.name; document.getElementById('cardForm').classList.add('editando'); document.getElementById('nombre').value = p.name || ''; document.getElementById('precio').value = p.price || ''; document.getElementById('descripcion').value = p.description || ''; document.getElementById('dias').value = p.shipping_days || 30; document.getElementById('diasRapido').value = ''; let tallas = []; if(vars){ tallas = [...new Set(vars.filter(function(v){ return String(v.product_id)===String(p.id); }).map(function(v){ return v.size; }).filter(Boolean))]; } document.getElementById('tallas').value = tallas.length ? tallas.join(',') : 'S,M,L,XL'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR CAMBIOS'; document.getElementById('btnCancelarEditar').style.display = 'block'; document.getElementById('zonaFotos').style.display = 'none'; document.getElementById('estado').innerText = ''; window.scrollTo({top:0, behavior:'smooth'}); }
 function cancelarEditar(){ editandoId = null; document.getElementById('tituloForm').innerText = '+ Nuevo Producto'; document.getElementById('avisoEditando').style.display = 'none'; document.getElementById('cardForm').classList.remove('editando'); document.getElementById('nombre').value = ''; document.getElementById('precio').value = ''; document.getElementById('descripcion').value = ''; document.getElementById('tallas').value = 'S,M,L,XL'; document.getElementById('dias').value = '30'; document.getElementById('btnGuardar').innerText = '💾 GUARDAR PRODUCTO'; document.getElementById('btnCancelarEditar').style.display = 'none'; document.getElementById('zonaFotos').style.display = 'block'; document.getElementById('estado').innerText = ''; }
-
 async function cargar(){
-  const debugEl = document.getElementById('debug');
-  debugEl.innerText = 'Conectando directo a Supabase (sin CDN)...';
   try{
     const prods = await sbGet('products', 'select=*&order=created_at.desc');
-    debugEl.innerText = 'Productos: ' + prods.length;
     const imgs = await sbGet('product_images', 'select=*&order=position.asc');
     const vars = await sbGet('product_variants', 'select=*&order=created_at.asc');
     const lista=document.getElementById('lista'); lista.innerHTML='';
-    if(prods.length===0){ document.getElementById('vacio').style.display='block'; debugEl.innerText += ' | Tabla vacía'; } else { document.getElementById('vacio').style.display='none'; }
-    debugEl.innerText += ' | Fotos: ' + imgs.length + ' | Variantes: ' + vars.length;
+    if(prods.length===0){ document.getElementById('vacio').style.display='block'; } else { document.getElementById('vacio').style.display='none'; }
     prods.forEach(function(p){
       const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }).sort(function(a,b){ return (a.position||0)-(b.position||0); });
       let urls = misImgs.map(function(i){return i.image_url;});
@@ -250,7 +208,7 @@ async function cargar(){
       const btn = document.createElement('button'); btn.innerText = '🛒 COMPRAR CON BIZUM'; btn.onclick = function(){ abrirPedido(p); }; div.appendChild(btn); lista.appendChild(div);
     });
     cargarAdminConDatos(prods, imgs, vars);
-  }catch(e){ debugEl.innerText = '❌ Error: ' + e.message; console.error(e); }
+  }catch(e){ console.error(e); document.getElementById('debug').style.display='block'; document.getElementById('debug').innerText='Error cargando: '+e.message; }
 }
 function cargarAdmin(){ cargar(); }
 function cargarAdminConDatos(prods, imgs, vars){ const box = document.getElementById('listaAdmin'); if(!box) return; box.innerHTML=''; if(prods.length===0){ box.innerHTML='<p class="mini">No hay productos.</p>'; return; } prods.forEach(function(p){ const misImgs = imgs.filter(function(i){ return String(i.product_id)===String(p.id); }); const img = misImgs.length>0 ? misImgs[0].image_url : 'https://placehold.co/200x200/111111/C8FF2E?text=STRANGIS'; const d = document.createElement('div'); d.style.cssText='display:flex;gap:10px;align-items:center;background:#1a1a1a;padding:10px;border-radius:12px;margin-top:10px;flex-wrap:wrap'; d.innerHTML = '<img src="'+img+'" style="width:60px;height:60px;object-fit:cover;border-radius:8px"><div style="flex:1;min-width:140px"><b>'+esc(p.name)+'</b><br><span class="mini">'+p.price+' € | '+misImgs.length+' fotos / colores'+(p.description ? ' | 📝 Tiene descripción' : ' | Sin descripción')+'</span></div>'; const be = document.createElement('button'); be.innerText='✏️ Editar'; be.className='btn-edit'; be.style.width='auto'; be.onclick = function(){ editarProducto(p, vars); }; const b = document.createElement('button'); b.innerText='🗑️ Eliminar'; b.className='btn-del'; b.style.width='auto'; b.style.marginTop='0'; b.onclick = function(){ eliminarProducto(p); }; d.appendChild(be); d.appendChild(b); box.appendChild(d); }); }
@@ -263,32 +221,17 @@ async function subir(){
   const nombre=document.getElementById('nombre').value.trim(); const precio=document.getElementById('precio').value; const descripcion=document.getElementById('descripcion').value.trim(); const tallasTxt=document.getElementById('tallas').value; const stock=document.getElementById('stock').value; const dias=document.getElementById('dias').value; const estado=document.getElementById('estado');
   if(!nombre||!precio){ alert('Pon nombre y precio'); return; }
   try{
-    if(editandoId){
-      estado.innerText='⏳ Guardando cambios...';
-      await sbUpdate('products', 'id=eq.' + encodeURIComponent(String(editandoId)), {name:nombre, price:precio, description:descripcion, shipping_days:parseInt(dias)||30});
-      estado.innerText='✅ ¡Cambios guardados!'; cancelarEditar(); cargar(); show('tienda'); return;
-    }
+    if(editandoId){ estado.innerText='⏳ Guardando cambios...'; await sbUpdate('products', 'id=eq.' + encodeURIComponent(String(editandoId)), {name:nombre, price:precio, description:descripcion, shipping_days:parseInt(dias)||30}); estado.innerText='✅ ¡Cambios guardados!'; cancelarEditar(); cargar(); show('tienda'); return; }
     if(!fotosPendientes || fotosPendientes.length===0){ alert('Elige al menos 1 foto'); return; }
     const tallas = parseLista(tallasTxt); if(tallas.length===0) tallas.push('Única');
     for(let i=0;i<fotosPendientes.length;i++){ if(!fotosPendientes[i].color || !fotosPendientes[i].color.trim()){ alert('Pon el color de la Foto '+(i+1)); return; } }
     estado.innerText='⏳ Subiendo '+fotosPendientes.length+' fotos / colores...';
     const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-    let prod;
-    try{ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30,description:descripcion}); }
-    catch(e){ if(String(e.message).toLowerCase().includes('description')){ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}); alert('⚠️ Tu tabla no tiene columna description, guardado sin descripción.'); } else throw e; }
-    for(let i=0;i<fotosPendientes.length;i++){
-      const item = fotosPendientes[i]; const colorLimpio = item.color.trim();
-      estado.innerText='⏳ Subiendo foto '+(i+1)+' - Color: '+colorLimpio+'...';
-      const fileName=prod.id+'/'+Date.now()+'_'+i+'_'+item.file.name.replace(/\s/g,'_');
-      const publicUrl = await sbUpload(fileName, item.file);
-      await sbInsert('product_images', {product_id:String(prod.id),image_url:publicUrl,position:i,source_type:'upload'});
-      for(let t of tallas){ await sbInsert('product_variants', {product_id:String(prod.id),size:t,color:colorLimpio,stock:parseInt(stock)||10,sku:getRefColor(prod,colorLimpio)+'-'+t}); }
-    }
-    estado.innerText='✅ ¡LISTO! '+fotosPendientes.length+' colores: '+fotosPendientes.map(function(f){return f.color;}).join(', ');
-    document.getElementById('nombre').value=''; document.getElementById('descripcion').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[]; cargar(); show('tienda');
+    let prod; try{ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30,description:descripcion}); } catch(e){ if(String(e.message).toLowerCase().includes('description')){ prod = await sbInsert('products', {name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)||30}); alert('⚠️ Tu tabla no tiene columna description, guardado sin descripción.'); } else throw e; }
+    for(let i=0;i<fotosPendientes.length;i++){ const item = fotosPendientes[i]; const colorLimpio = item.color.trim(); estado.innerText='⏳ Subiendo foto '+(i+1)+' - Color: '+colorLimpio+'...'; const fileName=prod.id+'/'+Date.now()+'_'+i+'_'+item.file.name.replace(/\s/g,'_'); const publicUrl = await sbUpload(fileName, item.file); await sbInsert('product_images', {product_id:String(prod.id),image_url:publicUrl,position:i,source_type:'upload'}); for(let t of tallas){ await sbInsert('product_variants', {product_id:String(prod.id),size:t,color:colorLimpio,stock:parseInt(stock)||10,sku:getRefColor(prod,colorLimpio)+'-'+t}); } }
+    estado.innerText='✅ ¡LISTO! '+fotosPendientes.length+' colores: '+fotosPendientes.map(function(f){return f.color;}).join(', '); document.getElementById('nombre').value=''; document.getElementById('descripcion').value=''; document.getElementById('precio').value=''; document.getElementById('foto').value=''; document.getElementById('listaFotosAdmin').innerHTML=''; fotosPendientes=[]; cargar(); show('tienda');
   }catch(e){ estado.innerText='Error: ' + e.message; console.error(e); }
 }
-// Arrancar
 cargar();
 </script>
 </body>
