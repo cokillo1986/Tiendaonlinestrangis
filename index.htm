@@ -6,6 +6,8 @@
 <title>Vestuario STRANGIS | Ropa Streetwear Valencia - Hoodies y Drops</title>
 <meta name="description" content="Vestuario STRANGIS - Tienda de vestuario streetwear en Valencia. Hoodies oversize, camisetas y drops exclusivos. Envío en 30 días aprox. Compra con Bizum.">
 <meta name="keywords" content="vestuario strangis, strangis, vestuario streetwear valencia">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://cokillo1986.github.io/Tie/">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#0A0A0A;color:#fff;font-family:Arial,sans-serif}
@@ -46,7 +48,7 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 <div id="admin" style="display:none">
 <div class="card">
 <h2 style="margin:0">+ Nuevo Producto</h2>
-<small>Sube tu captura y elige cuántos días tarda esa prenda.</small>
+<small>Zona privada STRANGIS - Solo dueño.</small>
 <input id="nombre" placeholder="Nombre: Ej: Hoodie Oversize Negro STRANGIS">
 <input id="precio" type="number" placeholder="Precio: Ej: 39.99">
 <div style="display:flex;gap:8px">
@@ -65,11 +67,12 @@ input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #333;ba
 <input id="foto" type="file" accept="image/*">
 <button id="btnGuardar">💾 GUARDAR PRODUCTO</button>
 <p id="estado"></p>
+<button onclick="show('tienda')" style="background:#333;color:#fff">🔒 Cerrar Admin</button>
 </div>
 </div>
 </div>
 <script>
-// === ESTO VA PRIMERO PARA QUE EL BOTON ADMIN SIEMPRE FUNCIONE ===
+const ADMIN_PASS = "Strangis2027Vlc";
 function show(v){
   document.getElementById('tienda').style.display = v==='tienda'?'block':'none';
   document.getElementById('admin').style.display = v==='admin'?'block':'none';
@@ -77,15 +80,19 @@ function show(v){
   document.getElementById('btnAdmin').className = v==='admin'?'active':'';
 }
 document.getElementById('btnTienda').addEventListener('click', function(){ show('tienda'); });
-document.getElementById('btnAdmin').addEventListener('click', function(){ show('admin'); alert('Admin abierto - ya puedes subir tu producto'); });
-
+document.getElementById('btnAdmin').addEventListener('click', function(){
+  const pass = prompt('🔒 Zona privada STRANGIS\nIntroduce la contraseña de Admin:');
+  if(pass === ADMIN_PASS){
+    show('admin');
+  } else if(pass !== null){
+    alert('❌ Contraseña incorrecta. Solo el dueño de STRANGIS puede entrar.');
+  }
+});
 const SUPABASE_URL = "https://zffizzfctxakwweslngf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wdw5JjjNjUe-08UoOZcmOA_c6ODj5fO";
 let supabaseClient = null;
 try{ supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); }catch(e){ console.log(e); }
-
 function fechaEstimada(dias){ const f=new Date(); f.setDate(f.getDate()+parseInt(dias)); return f.toLocaleDateString('es-ES',{day:'numeric',month:'long'}); }
-
 async function cargar(){
   if(!supabaseClient) return;
   try{
@@ -96,7 +103,7 @@ async function cargar(){
     prods.forEach(p=>{
       const img = p.product_images && p.product_images[0] ? p.product_images[0].image_url : 'https://placehold.co/600x600/111111/C8FF2E?text=STRANGIS';
       const dias = p.shipping_days || 30;
-      lista.innerHTML += `<div class="card"><img src="${img}"><h3 style="margin:10px 0 4px">${p.name}</h3><span class="badge">NUEVO</span><p class="price">${p.price} €</p><div class="envio">🌍 <b>Envío: ${dias} días aprox.</b><br>Llega alrededor del ${fechaEstimada(dias)}</div><button onclick="alert('Pedido: ${p.name}')">🛒 COMPRAR CON BIZUM</button></div>`;
+      lista.innerHTML += `<div class="card"><img src="${img}"><h3 style="margin:10px 0 4px">${p.name}</h3><span class="badge">NUEVO</span><p class="price">${p.price} €</p><div class="envio">🌍 <b>Envío: ${dias} días aprox.</b><br>Llega alrededor del ${fechaEstimada(dias)}</div><button onclick="alert('Pedido: ${p.name} - Envío ${dias} días aprox. Haz Bizum')">🛒 COMPRAR CON BIZUM</button></div>`;
     });
   }catch(e){ console.log(e); }
 }
@@ -111,7 +118,7 @@ async function subir(){
   if(!file){ alert('Elige una captura'); return; }
   estado.innerText='⏳ Subiendo a Supabase...';
   const slug=nombre.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-'+Date.now();
-  const {data:prod,error}=await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)}).select().single();
+  const {data:prod,error} = await supabaseClient.from('products').insert({name:nombre,slug:slug,price:precio,is_active:true,shipping_days:parseInt(dias)}).select().single();
   if(error){ estado.innerText='Error: '+error.message; return; }
   const fileName=prod.id+'/'+Date.now()+'_'+file.name.replace(/\s/g,'_');
   const {error:upErr}=await supabaseClient.storage.from('product-images').upload(fileName,file);
